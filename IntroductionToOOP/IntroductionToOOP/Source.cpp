@@ -1,71 +1,114 @@
 #include<iostream>
 using namespace std;
 
-#include <iostream>     // std::cout
-#include <iterator>     // std::distance
-#include <list>         // std::list
-
 class Distance {
 public:
+	// вывод на экран оси координат с расположением точки
 	void PrintDisplay(int x, int y) {
 		x = set_X(x);
 		y = set_Y(y);
-		std::cout << " ";
-		for (int i = 0; i < this->x_end;i++) {
-			std::cout << "+";
-		}
-		std::cout << std::endl;
-		for (int i = 0; i < this->y_end;i++) {
-			std::cout << "+";
-			for (int j = 0; j < this->x_end;j++) {
+		std::cout << "Y-"<< this->get_Y_End() << std::endl;
+		for (int i = this->Y_END; i > 0; i--) {
+			std::cout << "|";
+			for (int j = 0; j < this->X_END;j++) {
 				if ((i == y) && (j == x)) {
 					std::cout << "*";
 				}
 				else std::cout << " ";
 			}
-			std::cout << "+" << std::endl;
+			std::cout << std::endl;
 		}
-		std::cout << " ";
-		for (int i = 0; i < this->x_end;i++) {
-			std::cout << "+";
+		std::cout << "0";
+		for (int i = 0; i < this->X_END;i++) {
+			std::cout << "-";
 		}
-		std::cout << std::endl;
+		std::cout << " X-" << this->get_X_End() << std::endl;
 		return;
 	}
+	// вывод на экран расположени€ точки в диапазоне координат
+	void PrintBorderControl(int x, int y) {
+		if (x < 0) {
+			std::cout << "ќсь x:\t" << x << " -> 0 -> " << this->get_X_End() << std::endl;
+		}
+		else if (x > this->get_X_End()) {
+			std::cout << "ќсь x:\t0 -> " << this->get_X_End() << " -> " << x << std::endl;
+		}
+		else {
+			std::cout << "ќсь x:\t0 -> " << x << " -> " << this->get_X_End() << std::endl;
+		}
+		if (y < 0) {
+			std::cout << "ќсь y:\t" << y << " -> 0 -> " << this->get_Y_End() << std::endl;
+		}
+		else if (y > this->get_Y_End()) {
+			std::cout << "ќсь y:\t0 -> " << this->get_Y_End() << " -> " << y << std::endl;
+		}
+		else {
+			std::cout << "ќсь y:\t0 -> " << y << " -> " << this->get_Y_End() << std::endl;
+		}
+		return;
+	}
+	// вывод на экран рассто€ни€ между точками x и y
+	void PrintDistanceXY(int x, int y) {
+		int d = 0;
+		std::cout << "\n\t –ассто€ние от точки X до точки Y составл€ет: ";
+		x = (x < 0) ? -(x) : x;
+		y = (y < 0) ? -(y) : y;
+		d = (x * x) + (y * y);
+		//d = SquareRoot(d);
+		std::cout << SquareRoot(d) << " точек" << std::endl;
+	}
+	// метод получени€ значени€ по оси x
 	int get_X()const {
 		return x;
 	}
+	// метод передачи значени€ по оси x и получение значени€ в рамках заданного диапазона
 	int set_X(int x) {
 		x = ErrorInputX(x);
 		this->x = x;
 		return x;
 	}
+	// метод получени€ граничного значени€ по оси x
 	int get_X_End()const {
-		return this->x_end;
+		return this->X_END;
 	}
+	// метод получени€ значени€ по оси y
 	int get_Y()const {
 		return y;
 	}
+	// метод передачи значени€ по оси y и получение значени€ в рамках заданного диапазона
 	int set_Y(int y) {
 		y = ErrorInputY(y);
 		this->y = y;
 		return y;
 	}
+	// метод получени€ граничного значени€ по оси y
 	int get_Y_End()const {
-		return this->y_end;
+		return this->Y_END;
 	}
 private:
 	int x = 0;
 	int y = 0;
-	const int x_end = 30;
-	const int y_end = 20;
+	const int X_END = 30;			// зададим границу по оси x
+	const int Y_END = 20;			// зададим границу по оси y
+	// метод проверки на выход за рамки заданных координат по оси x
 	int ErrorInputX(int x) {
-		if (x > x_end) return x_end - 1;
+		if (x > X_END) return X_END - 1;
 		else return x;
 	}
+	// метод проверки на выход за рамки заданных координат по оси 
 	int ErrorInputY(int y) {
-		if (y > y_end) return y_end - 1;
+		if (y > Y_END) return Y_END - 1;
 		else return y;
+	}
+	// метод вычислени€ квадратного корн€
+	float SquareRoot(int d) {
+		float sd = 0;
+		while ((sd * sd) < d) {	// выполн€ем пока не достигним максимально-приближенного результата
+			sd = sd + 0.01;
+		}
+		int temp = (sd - 0.01) * 100;	// проведем округление до сотых
+		sd = (float)temp / 100;			// 
+		return sd;						// вернем результат вычислени€ квадратного корн€
 	}
 };
 
@@ -78,18 +121,7 @@ void main() {
 	std::cout << "¬ведите ваше расположение по оси y - "; std::cin >> y; std::cout << std::endl;
 
 	D.PrintDisplay(x, y);
-
-	x = D.get_X_End() - x;
-	y = D.get_Y_End() - y;
-	if ((x < 0) || (y < 0)) {
-		std::cout << "¬ы вышли за границы оси координат:"<< std::endl;
-		std::cout << "\t x = " << x << "\t y = " << y << std::endl;
-	}
-	else {
-		std::cout << "ќстаток до границы по оси x - " << x << std::endl;
-		std::cout << "ќстаток до границы по оси y - " << y << std::endl;
-	}
-	
-
-
+	D.PrintBorderControl(x, y);
+	D.PrintDistanceXY(x, y);
+	return;
 }
