@@ -19,7 +19,16 @@ public:
 	void set_y(double y) {
 		this->y = y;
 	}
+
+	// метод
+	double distance(Point other) {
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+		return distance;
+	}
 };
+
 class Point3D :public Point {
 	double z;
 public:
@@ -29,19 +38,23 @@ public:
 	void set_z(double z) {
 		this->z = z;
 	}
+	
 };
 
 void main() {
-		
+	setlocale(LC_ALL, "");
 	Point A;
-	Point3D B;
 
 	A.set_x(2);
 	A.set_y(3);
-	B.set_z(20);
 	
 	cout << A.get_x() << "\t" << A.get_y() << endl;
 	Point* pA = &A;
 	cout << pA->get_x() << "\t" << pA->get_y() << endl;
-	cout << A.get_x() << "\t" << A.get_y() << "\t" << B.get_z() << endl;
+
+	Point B;
+	B.set_x(4);
+	B.set_y(5);
+	cout << "Расстояние от точки А до точки В "<<A.distance(B) << endl;
+	cout << "Расстояние от точки B до точки В " << B.distance(A) << endl;
 }
