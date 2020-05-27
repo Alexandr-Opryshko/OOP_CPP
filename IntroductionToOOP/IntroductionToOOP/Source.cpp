@@ -26,11 +26,46 @@ public:
 		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 		return distance;
 	}
+	/*
+	Point() {
+		x = y = double();
+		cout << "default Конструктор :\t" << this << endl;
+	}
+	Point(double x) {
+		this-> x = x;
+		this->y = double();
+		cout << "One parametr Конструктор :\t" << this << endl;
+	}
+	*/
+	Point(double x = 0, double y = 0) {
+		this->x = x;
+		this->y = y;
+		cout << "Too parametr Конструктор :\t" << this << endl;
+	}
+	// конструктор копирования
+	Point(const Point& other) {
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Copy Конструктор :\t" << this << endl;
+	}
+	// конструктор присвоения
+	void operator = (const Point& other) {
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssigment Конструктор :\t" << this << endl;
+	}
+	~Point() {
+		cout << "Деструктор :\t" << this << endl;
+	}
+	void Print()const {
+		std::cout << "X = " << x << ", Y = " << y << std::endl;
+	}
 };
 
 
 void main() {
 	setlocale(LC_ALL, "");
+	/*
 	Point A;
 
 	A.set_x(2);
@@ -45,4 +80,26 @@ void main() {
 	B.set_y(5);
 	cout << "Расстояние от точки А до точки В " << A.distance(B) << endl;
 	cout << "Расстояние от точки B до точки В " << B.distance(A) << endl;
+	*/
+
+	Point A;
+	A.Print();
+
+	Point B = 2;
+	B.Print();
+
+	Point C(3);
+	C.Print();
+
+	Point D(2, 3);
+	D.Print();
+
+	Point E = C;
+	E.Print();
+
+	Point F;
+	F = D;
+	F.Print();
+
+
 }
