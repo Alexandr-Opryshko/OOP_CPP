@@ -1,8 +1,4 @@
-#include<iostream>
 #include"ClassFraction.h"
-using std::cout;
-using std::cin;
-using std::endl;
 
 
 void main() {
