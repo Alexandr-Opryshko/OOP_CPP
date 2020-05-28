@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30104.148
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntroductionToOOP", "IntroductionToOOP\IntroductionToOOP.vcxproj", "{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FractionOOP", "..\Fraction\FractionOOP\FractionOOP\FractionOOP.vcxproj", "{25D5F9E6-6D61-4C97-BA0E-07FB3E3B7175}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FractionOOP", "FractionOOP\FractionOOP.vcxproj", "{25D5F9E6-6D61-4C97-BA0E-07FB3E3B7175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Debug|x64.ActiveCfg = Debug|x64
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Debug|x64.Build.0 = Debug|x64
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Debug|x86.ActiveCfg = Debug|Win32
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Debug|x86.Build.0 = Debug|Win32
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Release|x64.ActiveCfg = Release|x64
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Release|x64.Build.0 = Release|x64
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Release|x86.ActiveCfg = Release|Win32
-		{733556A8-B08C-4A1A-B2E4-E8AE80134EF5}.Release|x86.Build.0 = Release|Win32
 		{25D5F9E6-6D61-4C97-BA0E-07FB3E3B7175}.Debug|x64.ActiveCfg = Debug|x64
 		{25D5F9E6-6D61-4C97-BA0E-07FB3E3B7175}.Debug|x64.Build.0 = Debug|x64
 		{25D5F9E6-6D61-4C97-BA0E-07FB3E3B7175}.Debug|x86.ActiveCfg = Debug|Win32
@@ -36,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C969B0B9-5010-4039-8EFD-20BCBBC0C49E}
+		SolutionGuid = {BDAB9B58-1EBA-448B-8501-908319256CDF}
 	EndGlobalSection
 EndGlobal
