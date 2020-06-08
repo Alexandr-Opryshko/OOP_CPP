@@ -25,7 +25,6 @@ public:
 		if (denominator == 0)denominator = 1;
 		this->denominator = denominator;
 	}
-
 	//		Constructors:
 	Fraction() {
 		this->integer = 0;
@@ -70,8 +69,7 @@ public:
 		return *this;
 	}
 
-	//		Methods:
-	/// <summary> Метод, который переводит неправильную дробь в правильную  </summary>
+	/// <summary> Метод, который переводит неправильную дробь в правильную и возвращает результат </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
 	Fraction& ToProper(const Fraction& other) {		// -;
@@ -87,7 +85,7 @@ public:
 		}
 		return *this;
 	}
-	/// <summary> Метод, который переводит значение в неправильную дробь </summary>
+	/// <summary> Метод, который переводит значение в неправильную дробь и возвращает результат </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
 	Fraction& ToImproper(const Fraction& other) {
@@ -103,7 +101,7 @@ public:
 		}
 		return *this;
 	}
-	/// <summary> Метод, который сокращает дробь </summary>
+	/// <summary> Метод, который сокращает дробь  и возвращает результат </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
 	Fraction& Reduce(const Fraction& other) {
@@ -117,7 +115,9 @@ public:
 		}
 		return *this;
 	}
-
+	/// <summary> Метод, который выводит на экран результат с проверкой на 0 </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	void print()const {
 		if (integer)cout << integer;
 		if (numerator) {
@@ -141,15 +141,15 @@ void main() {
 	cout << "Числитель:\t"; cin >> numerator;
 	cout << "Знаменатель:\t"; cin >> denominator;
 
-	Fraction data(integer, numerator, denominator);		// создадим объект с данными
-	data.Reduce(data);									// если нужно то сократим дробь
-	data.print();
-	Fraction improper;
-	Fraction proper;
+	Fraction data(integer, numerator, denominator);			// создадим объект с данными
+	data.Reduce(data);										// если нужно то сократим дробь
+	
 
 	if ((integer != 0) && (numerator != 0)) {
+		Fraction improper;									// объект для неправильных дробей
 		if (numerator > denominator) {
-			cout << "Введенная дробь неправильная, а также смешанная. Переведем ее в правильную смешанную:" << endl;
+			cout << "Введенная дробь неправильная, а также смешанная. Попробуем перевести ее в правильную смешанную:" << endl;
+			Fraction proper;								// объект для правильных дробей
 			proper.ToProper(data);
 			proper.print();
 			cout << "А теперь в неправильную:" << endl;
@@ -164,12 +164,14 @@ void main() {
 	}
 	else if(numerator == 0) {
 		cout << "Результатом является не дробное число. Переведем его в неправильную:" << endl;
+		Fraction improper;									// объект для неправильных дробей
 		improper.ToImproper(data);
 		improper.print();
 	}
 	else {
 		if (numerator > denominator) {
 			cout << "Введенная дробь неправильная. Переведем ее в правильную смешанную:" << endl;
+			Fraction proper;								// объект для неправильных дробей
 			proper.ToProper(data);
 			proper.print();
 		}
