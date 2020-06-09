@@ -148,7 +148,7 @@ void main() {
 	if ((integer != 0) && (numerator != 0)) {
 		Fraction improper;									// объект для неправильных дробей
 		if (numerator > denominator) {
-			cout << "Введенная дробь неправильная, а также смешанная. Попробуем перевести ее в правильную смешанную:" << endl;
+			cout << "Введенная дробь не правильная, а также смешанная. Попробуем перевести ее в правильную смешанную:" << endl;
 			Fraction proper;								// объект для правильных дробей
 			proper.ToProper(data);
 			proper.print();
@@ -157,20 +157,25 @@ void main() {
 			improper.print();
 		}
 		else {
-			cout << "Введенная дробь правильная, а также смешанная. Переведем ее в неправильную:" << endl;
+			cout << "Введенная дробь правильная, а также смешанная. Переведем ее в не правильную:" << endl;
 			improper.ToImproper(data);
 			improper.print();
 		}
 	}
 	else if(numerator == 0) {
-		cout << "Результатом является не дробное число. Переведем его в неправильную:" << endl;
-		Fraction improper;									// объект для неправильных дробей
-		improper.ToImproper(data);
-		improper.print();
+		if (integer == 0) 			{
+			cout << "Число относится к целым числам. Результат нулевой." << endl;
+		}
+		else {
+			cout << "Результатом является не дробное число. Переведем его в не правильную:" << endl;
+			Fraction improper;									// объект для неправильных дробей
+			improper.ToImproper(data);
+			improper.print();
+		}
 	}
 	else {
 		if (numerator > denominator) {
-			cout << "Введенная дробь неправильная. Переведем ее в правильную смешанную:" << endl;
+			cout << "Введенная дробь не правильная. Переведем ее в правильную смешанную:" << endl;
 			Fraction proper;								// объект для неправильных дробей
 			proper.ToProper(data);
 			proper.print();
