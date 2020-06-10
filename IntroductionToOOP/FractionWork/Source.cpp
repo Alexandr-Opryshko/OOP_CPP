@@ -104,7 +104,7 @@ public:
 	/// <summary> Метод, который сокращает дробь  и возвращает результат </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	Fraction& Reduce(const Fraction& other) {
+	Fraction& Reduce_1(const Fraction& other) {
 		this->integer = other.integer;					// защита при использовании разных объектов
 		for (int i = other.denominator; i != 1; i--) {
 			if (((other.denominator % i) == 0) && ((other.numerator % i) == 0)) {
@@ -115,6 +115,33 @@ public:
 		}
 		return *this;
 	}
+
+/// <summary> Еще один Метод, который сокращает дробь  и возвращает результат </summary>
+/// <param name="other"></param>
+/// <returns></returns>
+	Fraction& Reduce_2(const Fraction& other) {
+		int more;					// большее значение
+		int less;					// меньшее значение
+		int reminder = 0;			// остаток от деления
+		if (other.numerator > other.denominator) {
+			more = other.numerator;
+			less = other.denominator;
+		}
+		else {
+			less = other.numerator;
+			more = other.denominator;
+		}
+		do {
+			reminder = more % less;
+			more = less;
+			less = reminder;
+		} while (reminder);
+
+		this->numerator = other.numerator / more;
+		this->denominator = other.denominator / more;
+		return *this;
+	}
+
 	/// <summary> Метод, который выводит на экран результат с проверкой на 0 </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
@@ -131,6 +158,7 @@ public:
 };
 
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
 
 void main() {
 	setlocale(LC_ALL, "");
@@ -142,8 +170,9 @@ void main() {
 	cout << "Знаменатель:\t"; cin >> denominator;
 
 	Fraction data(integer, numerator, denominator);			// создадим объект с данными
-	data.Reduce(data);										// если нужно то сократим дробь
-	
+
+	data.Reduce_2(data);
+	data.print();
 
 	if ((integer != 0) && (numerator != 0)) {
 		Fraction improper;									// объект для неправильных дробей
@@ -186,8 +215,6 @@ void main() {
 		}
 	}
 	
-	
-
 
 #ifdef CONSTRUCTORS_CHECK
 	Fraction A;
@@ -203,20 +230,20 @@ void main() {
 	F = E;
 	F.print();
 #endif // CONSTRUCTORS_CHECK
-
-	/*Fraction A(1, 2);
+#ifdef ASSIGNMENT_CHECK
+	Fraction A(1, 2);
 	A.print();
 	Fraction B;
 	B.print();
 	cout << "\n-------------------------------------------\n";
 	B = A;
 	cout << "\n-------------------------------------------\n";*/
-/*
+
 	int a, b, c;
 	a = b = c = 0;
 	Fraction D(1, 2);
 
 	Fraction A, B, C;
 	A = B = C = D;
-	*/
+#endif // ASSIGNMENT_CHECK
 }
