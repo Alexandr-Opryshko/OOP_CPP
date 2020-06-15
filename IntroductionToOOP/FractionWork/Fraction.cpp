@@ -10,12 +10,13 @@ using namespace std;
 
 /*
 Fraction operator *(Fraction left, Fraction right) {
-	left.ToImproper(left);
-	right.ToImproper(right);
-	Fraction rezult(left.get_numerator() * right.get_numerator(), left.get_denominator() * right.get_denominator());
+	left.ToImproper();
+	right.ToImproper();
+	Fraction rezult(left.get_numerator() * right.get_numerator();
+	Fraction rezult(left.get_denominator() * right.get_denominator());
 
-	rezult.Reduce(rezult);
-	rezult.ToProper(rezult);
+	rezult.Reduce();
+	rezult.ToProper();
 	return rezult;
 
 }

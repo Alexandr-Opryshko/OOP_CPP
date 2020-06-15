@@ -75,6 +75,12 @@ public:
 		numerator %= denominator;
 		return *this;
 	}
+	/*
+	void ToProper() {
+		integer += numerator / denominator;
+		numerator %= denominator;
+	}
+	*/
 	/// <summary> Метод, который переводит значение в неправильную дробь и возвращает результат </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
@@ -93,7 +99,6 @@ public:
 /*	void ToImproper() {
 		numerator += integer * denominator;
 		integer = 0;
-		//return *this;
 	}
 	*/
 	/// <summary> Метод, который сокращает дробь  и возвращает результат </summary>
@@ -126,7 +131,34 @@ public:
 		numerator *= znak;
 		return *this;
 	}
+	/*
+	void Reduce() {
+		int znak = 1;
+		int more;					// большее значение
+		int less;					// меньшее значение
+		int reminder = 0;			// остаток от деления
+		if (numerator < 0) {
+			numerator *= -1; znak = -1;
+		}
+		if (numerator > denominator) {
+			more = numerator;
+			less = denominator;
+		}
+		else {
+			less = numerator;
+			more = denominator;
+		}
+		do {
+			reminder = more % less;
+			more = less;
+			less = reminder;
+		} while (reminder);
 
+		numerator /= more;
+		denominator /= more;
+		numerator *= znak;
+	}
+	*/
 	//		Operators:
 	Fraction& operator=(const Fraction& other) {
 		this->integer = other.integer;
@@ -175,7 +207,7 @@ public:
 		Fraction right = other;
 		right.ToImproper();
 		rezult.integer = 0;
-		rezult.numerator = (left.numerator * right.denominator) * (left.denominator * right.numerator);
+		rezult.numerator = (left.numerator * right.numerator);
 		rezult.denominator = (left.denominator * right.denominator);
 		rezult.Reduce();
 		return rezult;
@@ -194,7 +226,7 @@ public:
 		right.denominator = right.numerator;
 		right.numerator = temp;
 		rezult.integer = 0;
-		rezult.numerator = (left.numerator * right.denominator) * (left.denominator * right.numerator);
+		rezult.numerator = (left.numerator * right.numerator);
 		rezult.denominator = (left.denominator * right.denominator);
 		rezult.Reduce();
 		return rezult;
@@ -228,7 +260,7 @@ public:
 		Fraction right = other;
 		right.ToImproper().Reduce();
 		this->ToImproper().Reduce();
-		this->numerator = (this->numerator * right.denominator) * (right.numerator * this->denominator);
+		this->numerator *= right.numerator;
 		this->denominator *= right.denominator;
 		return this->Reduce().ToProper();
 	}
@@ -243,7 +275,7 @@ public:
 		right.denominator = right.numerator;
 		right.numerator = temp;
 		this->ToImproper().Reduce();
-		this->numerator = (this->numerator * right.denominator) * (right.numerator * this->denominator);
+		this->numerator *= right.numerator;
 		this->denominator *= right.denominator;
 		return this->Reduce().ToProper();
 	}
