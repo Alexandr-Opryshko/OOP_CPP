@@ -3,8 +3,8 @@
 #include<iostream>
 
 using namespace std;
-#define FRACTION_TRANSFER
-//#define OVERLOAD_Operator
+//#define FRACTION_TRANSFER
+#define OVERLOAD_Operator
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
 
