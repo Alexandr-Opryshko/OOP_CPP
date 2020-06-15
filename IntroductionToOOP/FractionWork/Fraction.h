@@ -206,18 +206,13 @@ public:
 		left.ToImproper();
 		Fraction right = other;
 		right.ToImproper();
-		rezult.integer = 0;
-		rezult.numerator = (left.numerator * right.numerator);
-		rezult.denominator = (left.denominator * right.denominator);
-		rezult.Reduce();
-		return rezult;
+		return Fraction((left.numerator * right.numerator), (left.denominator * right.denominator)).ToProper().Reduce();
 	}
 	/// <summary> перегрузка оператора деления </summary>
 /// <param name="other"></param>
 /// <returns></returns>
 	Fraction operator /(const Fraction& other) {
 		int temp;
-		Fraction rezult;
 		Fraction left = *this;
 		left.ToImproper();
 		Fraction right = other;
@@ -225,11 +220,7 @@ public:
 		temp = right.denominator;
 		right.denominator = right.numerator;
 		right.numerator = temp;
-		rezult.integer = 0;
-		rezult.numerator = (left.numerator * right.numerator);
-		rezult.denominator = (left.denominator * right.denominator);
-		rezult.Reduce();
-		return rezult;
+		return Fraction((left.numerator * right.numerator), (left.denominator * right.denominator)).ToProper().Reduce();
 	}
 	/// <summary> перегрузка оператора сложения с присвоением </summary>
 /// <param name="other"></param>
