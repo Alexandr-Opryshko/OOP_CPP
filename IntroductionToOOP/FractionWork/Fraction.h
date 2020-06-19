@@ -350,6 +350,7 @@ public:
 		set_numerator(numerator);
 		set_denominator(denomenator);
 		cout << "Оператор()" << endl;
+		return *this;
 	}
 	/// <summary> Метод, который выводит на экран результат с проверкой на 0 </summary>
 	/// <param name="other"></param>
