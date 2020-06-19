@@ -3,8 +3,10 @@
 #include<iostream>
 
 using namespace std;
+#define CONVERT_DOUBLE_TODO_FRACTION
+//#define ARITHMETIC_OPERQTORS_CHECK
 //#define FRACTION_TRANSFER
-#define OVERLOAD_Operator
+//#define OVERLOAD_Operator
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
 
@@ -22,9 +24,56 @@ Fraction operator *(Fraction left, Fraction right) {
 }
 */
 
+Fraction operator +(const Fraction& left, const Fraction& right) {
+	return Fraction
+	(
+		left.get_integer() + right.get_integer(),
+		(left.get_numerator() * right.get_denominator() + left.get_denominator() * right.get_numerator()),
+		left.get_denominator() * right.get_denominator()
+	).ToProper().Reduce();
+}
+
+ostream& operator<<(ostream& os, const Fraction& other) {
+	if (other.get_integer()) cout << other.get_integer();
+	if (other.get_numerator()) {
+		//if (integer) cout << "(";
+		if (other.get_integer()) cout << "+";
+		cout << other.get_numerator() << "/" << other.get_denominator();
+		//if (integer) cout << ")";
+	}
+	else if (other.get_integer() == 0) {
+		cout << 0;
+	}
+	return os;
+}
+
 
 void main() {
 	setlocale(LC_ALL, "");
+
+#ifdef CONVERT_DOUBLE_TODO_FRACTION
+	double a = 3.14;
+	std::cout << a << std::endl;
+	Fraction A = a;
+	A.print();
+	a = A;
+	A(2, 3, 5);
+	std::cout << a << std::endl;
+#endif // CONVERT_DOUBLE_TODO_FRACTION
+
+#ifdef ARITHMETIC_OPERQTORS_CHECK
+		Fraction A(1, 2);
+		Fraction B = A++;
+		B.print();
+		A.print();
+		B = ++A;
+		B = A + A;
+		
+		cout << A << " + " << B << " = " << (A+B).ToProper() << endl;
+#endif // ARITHMETIC_OPERQTORS_CHECK
+
+
+
 #ifdef FRACTION_TRANSFER
 		int integer, numerator, denominator;
 

@@ -8,6 +8,7 @@ class Fraction {
 	int numerator;
 	int denominator;
 public:
+	
 	const int get_integer()const {
 		return integer;
 	}
@@ -34,6 +35,24 @@ public:
 		this->denominator = 1;
 		cout << "DefConstructor:\t" << this << endl;
 	}
+	Fraction(double value) {
+		integer = (int)value;					// запишим целую часть
+		value -= integer;						// уберем целую часть
+		int i = 1;								// зададим denominator
+		for (; i < 100000;) {					// выполняем пока не получим целую чась с округлением до 5-ти знаков
+			if ((value - (int)value) != 0) {	// если остаток дробный
+				i *= 10;						// увеличим denominator в 10 раз
+				value *= 10;					// произведем умножение на 10
+				continue;						// пропустим ниже код
+			}	
+			break;								// иначе выход из цикла
+		}
+		numerator = (int)value == 0 ? 1 : (int)value;				// запишим результат
+		denominator = i;						// запишим результат
+		Reduce();								// сократим дробь
+		cout << "Constructor double:\t" << this << endl;
+	}
+
 	Fraction(int integer) {
 		this->integer = integer;
 		this->numerator = 0;
@@ -160,6 +179,18 @@ public:
 	}
 	*/
 	//		Operators:
+	operator double() const{
+		double value = (double)integer + ((double)numerator / denominator);
+		value = (int)(value * 100000);
+		value /= 100000;
+		std::cout << "ConvertToDouble: " << this << std::endl;
+		return value;
+	}
+	explicit operator int() {
+		return integer;
+	}
+
+	
 	Fraction& operator=(const Fraction& other) {
 		this->integer = other.integer;
 		this->numerator = other.numerator;
@@ -299,6 +330,26 @@ public:
 		right.ToImproper().Reduce();
 		left.ToImproper().Reduce();
 		return (((float)left.numerator / left.denominator) < ((float)right.numerator / right.denominator)) ? true : false;
+	}
+	/// <summary> Префиксный инкремент </summary>
+	/// <returns></returns>
+	Fraction& operator++() {
+		integer++;
+		return *this;
+	}
+	/// <summary> Постфиксный инкремент </summary>
+/// <returns></returns>
+	Fraction operator++(int) {
+		Fraction bufer = *this;
+		integer++;
+		return *this;
+	}
+
+	Fraction operator()(int integer, int numerator, int denomenator) {
+		set_integer(integer);
+		set_numerator(numerator);
+		set_denominator(denomenator);
+		cout << "Оператор()" << endl;
 	}
 	/// <summary> Метод, который выводит на экран результат с проверкой на 0 </summary>
 	/// <param name="other"></param>
