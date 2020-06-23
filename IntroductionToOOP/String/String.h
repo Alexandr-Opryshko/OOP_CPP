@@ -88,7 +88,7 @@ public:
 		delete[] this->str;
 		this->size = temp.size + other.size - 1;
 		this->str = new char[this->size]{};
-		for (int i = 0, j = 0; i < size-1; i++) {
+		for (int i = 0, j = 0; i < this->size - 1; i++) {
 			this->str[i] = (i < temp.size - 1) ? temp.str[i] : other.str[j++];
 		}
 		cout << "SumAssignmentOperator\t" << this << endl;
@@ -99,6 +99,5 @@ public:
 		cout << "Size:\t" << size << endl;
 		cout << "Str:\t" << str << endl;
 	}
-
 };
 
