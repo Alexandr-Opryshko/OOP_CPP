@@ -3,11 +3,11 @@
 #include<iostream>
 
 using namespace std;
-#define CONVERT_DOUBLE_TODO_FRACTION
+//#define CONVERT_DOUBLE_TODO_FRACTION
 //#define ARITHMETIC_OPERQTORS_CHECK
 //#define FRACTION_TRANSFER
 //#define OVERLOAD_Operator
-//#define CONSTRUCTORS_CHECK
+#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
 
 /*
