@@ -16,19 +16,18 @@ void main() {
 
 	String str(8);
 	str.print();
-	String str1 = "Hello";
+	String str1 = "Hello ";
 	str1.print();
 
 
 		String str2 = str1;
 		str2.print();
 		cout << str2 << endl;
-		str = "Good by";
+		str = "Good by ";
 		cout << str << endl;
-/*		str = str1;
+		str2 = str;
 		cout << str1 << endl;
-		cout << str << endl;
-*/
+
 		str = str1 + str + str2;
 		cout << str << endl;
 		str += str1;

@@ -36,7 +36,7 @@ public:
     explicit String(int size = 80) {
         this->size = size;
         this->str = new char[size] {};
-        cout << "DefConstructor:\t" << this << endl;
+        cout << "DefConstructor:\t\t" << this << endl;
     }
 	String(const char* arrayChar) {
 //		this->str = nullptr;
@@ -45,7 +45,7 @@ public:
 		for (int i = 0; i < size; i++) {
 			this->str[i] = arrayChar[i];
 		}
-		std::cout << "Constructor:\t" << this << std::endl;
+		std::cout << "Constructor:\t\t" << this << std::endl;
 	}
 
 	String(const String& other) {
@@ -58,7 +58,7 @@ public:
 	}
     ~String() {
         delete[] str;
-        cout << "Destructor:\t" << this << endl;
+        cout << "Destructor:\t\t" << this << endl;
     }
 // --- Operators ---
 	String& operator=(const String& other) {
@@ -67,7 +67,7 @@ public:
 			delete[] this->str;
 			this->str = new char[this->size]{};
 		}
-		for (int i = 0; i < this->size; i++) {
+		for (int i = 0; i < this->size-1; i++) {
 			this->str[i] = other.str[i];
 		}
 		cout << "AssignmentOperator\t" << this << endl;
@@ -76,9 +76,10 @@ public:
 	String operator+(const String& other) const{
 		int size = this->size + other.size -1;
 		String temp(this->size + other.size - 1);
-		for (int i = 0, j = 0; i < size; i++) {
+		for (int i = 0, j = 0; i < size-1; i++) {
 			temp.str[i] = (i < this->size-1) ? this->str[i] : other.str[j++];
 		}
+		cout << "SumOperator\t\t" << this << endl;
 		return temp;
 	}
 	String& operator+=(const String& other) {
@@ -87,9 +88,10 @@ public:
 		delete[] this->str;
 		this->size = temp.size + other.size - 1;
 		this->str = new char[this->size]{};
-		for (int i = 0, j = 0; i < size; i++) {
+		for (int i = 0, j = 0; i < size-1; i++) {
 			this->str[i] = (i < temp.size - 1) ? temp.str[i] : other.str[j++];
 		}
+		cout << "SumAssignmentOperator\t" << this << endl;
 		return *this;
 	}
 // --------------------------------------------
