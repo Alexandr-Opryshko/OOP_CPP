@@ -42,23 +42,31 @@ public:
     /// <summary>  </summary>
     /// <param name="size"></param>
     /// <returns></returns>
-    explicit String(int size = 80) {
+	explicit String(int size = 80) : size(size), str(new char[size] {}) {
+		cout << "DefConstructor:\t\t" << this << endl;
+	}
+   /* explicit String(int size = 80) {
         this->size = size;
         this->str = new char[size] {};
         cout << "DefConstructor:\t\t" << this << endl;
-    }
+    }*/
 
-	String(const char* arrayChar) {
+	String(const char str[]) :String(strlen(str) + 1) {
+		for (int i = 0; i < this->size - 1; i++) {
+			this->str[i] = str[i];
+		}
+		std::cout << "Constructor:\t\t" << this << std::endl;
+	}
+	/*String(const char arrayChar[]) {
 		this->size = (int)strlen(arrayChar) + 1;
 		this->str = new char[size] {};
 		for (int i = 0; i < this->size-1; i++) {
 			this->str[i] = arrayChar[i];
 		}
 		std::cout << "Constructor:\t\t" << this << std::endl;
-	}
+	}*/
 	
-	String(const char& other) : str(new char(other)) {
-		this->size = (int)strlen(str) + 1;
+	String(const String& other) : String(other.str) {
 		std::cout << "Constructor:  ?\t\t" << this << std::endl;
 	}
 
