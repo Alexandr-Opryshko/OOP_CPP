@@ -1,14 +1,6 @@
-#include<iostream>
+
 #include "String.h"
 
-
-
-ostream& operator<<(ostream& os, const String& other) {
-	cout << "Size:\t" << other.Get_size() << endl;
-	cout << "Str:\t" << other.Get_str() << endl;
-
-	return os;
-}
 
 void main() {
 	setlocale(LC_ALL, "");
@@ -20,7 +12,7 @@ void main() {
 	str1.print();
 
 
-	/*String str2 = str1;
+	String str2 = str1;
 	cout << str2 << endl;
 	str2 = str;
 	cout << str1 << endl;
@@ -33,7 +25,7 @@ void main() {
 	str = str1 + str2 + str;
 	cout << str << endl;
 	str += str;
-	cout << str << endl;*/
+	cout << str << endl;
 
 	String A("Hello!");
 	A.print();

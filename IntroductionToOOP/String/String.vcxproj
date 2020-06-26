@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="STringSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String.h" />
