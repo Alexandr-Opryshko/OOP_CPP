@@ -20,7 +20,7 @@ void main() {
 	str1.print();
 
 
-	String str2 = str1;
+	/*String str2 = str1;
 	cout << str2 << endl;
 	str2 = str;
 	cout << str1 << endl;
@@ -33,7 +33,7 @@ void main() {
 	str = str1 + str2 + str;
 	cout << str << endl;
 	str += str;
-	cout << str << endl;
+	cout << str << endl;*/
 
 	String A("Hello!");
 	A.print();
@@ -45,4 +45,8 @@ void main() {
 	B.print();
 	A = A + B;
 	A.print();
+	A += C;
+	A.print();
+	String str4();
+	
 }

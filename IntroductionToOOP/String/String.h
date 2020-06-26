@@ -36,7 +36,9 @@ public:
 	char* Get_str() {
 		return str;
 	}
-
+	String() {
+		cout << "DefDefConstructor:\t\t" << this << endl;
+	}
     /// <summary>  </summary>
     /// <param name="size"></param>
     /// <returns></returns>
@@ -95,7 +97,7 @@ public:
 	}
 	// move assignment
 	String& operator= (String&& other) {
-		delete str;
+		delete[] this->str;
 		this->size = other.size;
 		this->str = other.str;
 		other.str = nullptr;
@@ -124,6 +126,9 @@ public:
 	//}
 
 	String& operator+=(const String& other) {
+		return *this = *this + other;
+	}
+	/*String& operator+=(const String& other) {
 		int size = this->size + other.size - 1;
 		String temp = *this;
 		delete[] this->str;
@@ -134,7 +139,7 @@ public:
 		}
 		cout << "SumAssignmentOperator\t" << this << endl;
 		return *this;
-	}
+	}*/
 // --------------------------------------------
 	void print() {
 		cout << "Size:\t" << size << endl;
