@@ -81,8 +81,20 @@ public:
 	}
 };
 
-ostream& operator<<(ostream& os, const Box& other) {
-	cout << other.get_width() << "x" << other.get_height() << "x" << other.get_length() << endl;
+ostream& operator<<(ostream& os, const Box& other){
+	cout << "Width: " << other.get_width() << endl;
+	cout << "Height: " << other.get_height() << endl;
+	cout << "Length: " << other.get_length() << endl;
+
+	return os;
+}
+ostream& operator<<(ostream& os, const GiftBox& other) {
+	cout << "Width: " << other.get_width() << endl;
+	cout << "Height: " << other.get_height() << endl;
+	cout << "Length: " << other.get_length() << endl;
+
+	cout << other.get_cover() << endl;
+	cout << (other.get_bant() ? "yes" : "no") << endl;
 
 	return os;
 }
@@ -94,5 +106,6 @@ void main() {
 	A.print();
 	GiftBox B(2, 3, 7, "white", false);
 	B.print();
+	cout << B << endl;
 
 }
