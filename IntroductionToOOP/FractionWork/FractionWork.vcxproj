@@ -24,6 +24,7 @@
     <ProjectGuid>{0c520718-dde6-4157-9b68-fb9b822c0aee}</ProjectGuid>
     <RootNamespace>FractionWork</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Fraction</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
