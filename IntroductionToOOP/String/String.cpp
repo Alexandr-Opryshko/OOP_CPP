@@ -46,7 +46,5 @@ void main() {
 	A = A + B;
 	A.print();
 	A += C;
-	A.print();
-	String str4();
-	
+	A.print();	
 }
