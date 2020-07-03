@@ -12,10 +12,10 @@ const int Human::get_age() const {
 const int Human::get_gender() const {
 	return this->gender;
 }
-string& Human::set_name(string& name) {
+string& Human::set_name(const string& name) {
 	return this->name = name;
 }
-string& Human::set_surname(string& surname) {
+string& Human::set_surname(const string& surname) {
 	return this->surname = surname;
 }
 int Human::set_age(int age) {
@@ -26,17 +26,17 @@ bool Human::set_gender(bool gender) {
 	return this->gender = gender;
 }
 
-Human::Human(string name, string surname, int age, bool gender) {
-	this->name = set_name(name);
-	this->surname = set_surname(surname);
-	this->age = set_age(age);
-	this->gender = set_gender(gender);
+Human::Human(const string& name, const string& surname, int age, bool gender) {
+	set_name(name);
+	set_surname(surname);
+	set_age(age);
+	set_gender(gender);
 }
 
 Human::~Human() {
 }
 
-void Human::print() {
+void Human::print() const {
 	cout << "\tName:\t\t" << Human::get_name()<< endl;
 	cout << "\tSurName:\t" << Human::get_surname() << endl;
 	cout << "\tAge:\t\t" << Human::get_age() << endl;

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Graduate.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Student.cpp" />
@@ -146,6 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

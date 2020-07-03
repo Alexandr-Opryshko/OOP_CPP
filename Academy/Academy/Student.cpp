@@ -12,7 +12,7 @@ const double Student::get_attendence() const {
 const string& Student::get_speccialty() const {
 	return this->speccialty;
 }
-string& Student::set_group(string& group) {
+string& Student::set_group(const string& group) {
 	return this->group = group;
 }
 double Student::set_rating(double rating) {
@@ -23,14 +23,11 @@ double Student::set_attendence(double attendence) {
 	if (attendence < 0) attendence = 0;
 	return this->attendence = attendence;
 }
-string& Student::set_speccialty(string& speccialty) {
+string& Student::set_speccialty(const string& speccialty) {
 	return this->speccialty = speccialty;
 }
-void Student::print() {
-	cout << "\tName:\t\t" << get_name() << endl;
-	cout << "\tSurName:\t" << get_surname() << endl;
-	cout << "\tAge:\t\t" << get_age() << " ears" << endl;
-	cout << "\tGender:\t\t" << ((get_gender() == true) ? "Male" : "Female") << endl;
+void Student::print() const{
+	Human::print();
 
 	cout << "\tGroup:\t\t" << get_group() << endl;
 	cout << "\tRating:\t\t" << get_rating() << endl;
@@ -39,21 +36,21 @@ void Student::print() {
 }
 Student::Student
 (
-	string name, 
-	string surname, 
+	const string& name, 
+	const string& surname,
 	int age, 
 	bool gender,
-	string group,
+	const string& group,
 	double rating,
 	double attendence,
-	string speccialty
+	const string& speccialty
 
 ):Human(name, surname, age, gender)
 {
-	this->group = set_group(group);
-	this->rating = set_rating(rating);
-	this->attendence = set_attendence(attendence);
-	this->speccialty = set_speccialty(speccialty);
+	set_group(group);
+	set_rating(rating);
+	set_attendence(attendence);
+	set_speccialty(speccialty);
 }
 
 Student::~Student() {

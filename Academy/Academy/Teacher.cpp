@@ -13,23 +13,20 @@ const bool Teacher::get_evil() const {
 	return this->evil;
 }
 
-string& Teacher::set_subject(string& subject) {
+string& Teacher::set_subject(const string& subject) {
 	return this->subject = subject;
 }
 double Teacher::set_experience(double experience) {
 	return this->experience = experience;
 }
-string& Teacher::set_specialty(string& specialty) {
+string& Teacher::set_specialty(const string& specialty) {
 	return this->specialty = specialty;
 }
 bool Teacher::set_evil(bool evil) {
 	return this->evil = evil;
 }
-void Teacher::print() {
-	cout << "\tName:\t\t" << get_name() << endl;
-	cout << "\tSurName:\t" << get_surname() << endl;
-	cout << "\tAge:\t\t" << get_age() << " ears" << endl;
-	cout << "\tGender:\t\t" << ((get_gender() == true) ? "Male" : "Female") << endl;
+void Teacher::print() const {
+	Human::print();
 
 	cout << "\tSubject:\t" << get_subject() << endl;
 	cout << "\tExperience:\t" << get_experience() << " ears" << endl;
@@ -43,18 +40,18 @@ void Teacher::print() {
 }
 Teacher::Teacher
 (
-	string name,
-	string surname,
+	const string& name,
+	const string& surname,
 	int age,
 	bool gender,
-	string subject,
+	const string& subject,
 	double experience,
-	string specialty,
+	const string& specialty,
 	bool evil
 ) :Human(name, surname, age, gender) {
-	this->subject = set_subject(subject);
-	this->experience = set_experience(experience);
-	this->specialty = set_specialty(specialty);
+	set_subject(subject);
+	set_experience(experience);
+	set_specialty(specialty);
 
 }
 
