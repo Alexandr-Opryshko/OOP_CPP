@@ -26,6 +26,17 @@ double Student::set_attendence(double attendence) {
 string& Student::set_speccialty(const string& speccialty) {
 	return this->speccialty = speccialty;
 }
+
+ostream& Student::print(ostream& out) const {
+	Human::print(out);
+	out << "Student" << endl;;
+	cout << "\tGroup:\t\t" << get_group() << endl;
+	cout << "\tRating:\t\t" << get_rating() << endl;
+	cout << "\tAttendence:\t" << get_attendence() << " %" << endl;
+	cout << "\tSpeccialty:\t" << get_speccialty() << endl;
+	return out;
+}
+
 void Student::print() const{
 	Human::print();
 
@@ -54,4 +65,5 @@ Student::Student
 }
 
 Student::~Student() {
+	cout << "Destructor Student" << endl;
 }

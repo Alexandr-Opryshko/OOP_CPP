@@ -13,6 +13,10 @@ Graduate::Graduate(
 ) :Student(name, surname, age, gender, group, rating, attendence, speccialty) {
 	set_diploma_thema(diploma_thema);
 };
+ostream& Graduate::print(ostream& out) const {
+	cout << "Diploma_thema:\t" << get_diploma_thema() << endl;
+	return out;
+}
 void Graduate::print() const {
 	Student::print();
 	
@@ -23,4 +27,5 @@ Graduate::Graduate(const Student& stud, const string& diploma_thema) : Student(s
 }
 
 Graduate::~Graduate() {
+	cout << "Destructor Graduate" << endl;
 }

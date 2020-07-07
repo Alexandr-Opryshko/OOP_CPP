@@ -1,57 +1,26 @@
 #include"Header.h"
 
 
-ostream& operator<<(ostream& os, const Human& other) {
-	cout << "\tName:\t\t" << other.get_name() << endl;
-	cout << "\tSurName:\t" << other.get_surname() << endl;
-	cout << "\tAge:\t\t" << other.get_age() << " ears" << endl;
-	cout << "\tGender:\t\t" << ((other.get_gender() == true) ? "Male" : "Female") << endl;
-
-	return os;
-}
-
-ostream& operator<<(ostream& os, const Student& other) {
-	cout << "\tName:\t\t" << other.get_name() << endl;
-	cout << "\tSurName:\t" << other.get_surname() << endl;
-	cout << "\tAge:\t\t" << other.get_age() << " ears" << endl;
-	cout << "\tGender:\t\t" << ((other.get_gender() == true) ? "Male" : "Female") << endl;
-
-	cout << "\tGroup:\t\t" << other.get_group() << endl;
-	cout << "\tRating:\t" << other.get_rating() << endl;
-	cout << "\tAttendence:\t\t" << other.get_attendence() << " %" << endl;
-	cout << "\tSpeccialty:\t\t" << other.get_speccialty() << endl;
-
-	return os;
-}
-
-ostream& operator<<(ostream& os, const Teacher& other) {
-	cout << "\tName:\t\t" << other.get_name() << endl;
-	cout << "\tSurName:\t" << other.get_surname() << endl;
-	cout << "\tAge:\t\t" << other.get_age() << " ears" << endl;
-	cout << "\tGender:\t\t" << ((other.get_gender() == true) ? "Male" : "Female") << endl;
-
-	cout << "\tSubject:\t" << other.get_subject() << endl;
-	cout << "\tExperience:\t" << other.get_experience() << " ears" << endl;
-	cout << "\tSpecialty:\t" << other.get_specialty() << endl;
-	cout << "\tEvil:\t\t" << ((other.get_evil() == true) ? "Evil" : "Not angry") << endl;
-
-	return os;
-}
-
 void main() {
 	setlocale(LC_ALL, "");
 
-	Human group[] =
+	Human* group[] =
 	{
-	Student("Даня", "Дудченко", 17, true, "PV_911", 100, 100, "Программист"),
-	Student("Дмитрий", "Никулин", 16, true, "PV_911", 100, 99, "Программист"),
-	Student("Максим", "Пышненко", 16, true, "PV_911", 100, 99, "Программист"),
-	Teacher("Андрей", "Кобылинский", 40, true, "Преподаватель", 20, "HardwarePC", false)
+	new Student("Даня", "Дудченко", 17, true, "PV_911", 100, 100, "Программист"),
+	new Student("Дмитрий", "Никулин", 16, true, "PV_911", 100, 99, "Программист"),
+	new Student("Максим", "Пышненко", 16, true, "PV_911", 100, 99, "Программист"),
+	new Teacher("Андрей", "Кобылинский", 40, true, "Преподаватель", 20, "HardwarePC", false)
 	};
 	for (int i = 0; i < size(group);i++) {
-		cout << group[i] << endl;
+		/*group[i]->print();*/
+		
+		cout << *group[i] << endl;
+		
 	}
-
+	for (int i = 0; i < size(group);i++) {
+		delete group[i];
+	}
+	//basa.print(&Student("Даня", "Дудченко", 17, true, "PV_911", 100, 100, "Программист"));
 
 		//Human A("Viktor","Tichev",20,true);
 		//cout << A << endl;

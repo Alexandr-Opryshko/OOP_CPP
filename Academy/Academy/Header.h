@@ -13,9 +13,14 @@ public:
 	string& set_surname(const string& surname);
 	int set_age(int age);
 	bool set_gender(bool gender);
-	void print() const;
+
+	friend ostream& operator<<(ostream& out, const Human& other);
+	virtual ostream& print(ostream& out) const;
+
+	virtual void print() const;
+
 	Human(const string& name, const string& surname, int age, bool gender);
-	~Human();
+	virtual ~Human();
 
 private:
 	string name;		// имя
@@ -34,7 +39,10 @@ public:
 	double set_rating(double rating);
 	double set_attendence(double attendence);
 	string& set_speccialty(const string& speccialty);
-	void print() const;
+
+	ostream& print(ostream& out) const override;
+	void print() const override;
+
 	Student
 	(
 		const string& name,
@@ -68,7 +76,10 @@ public:
 	double set_experience(double experience);
 	string& set_specialty(const string& specialty);
 	bool set_evil(bool evil);
-	void print() const;
+
+	ostream& print(ostream& out) const;
+
+	void print() const override;
 	Teacher
 	(
 		const string& name,
@@ -93,7 +104,8 @@ class Graduate : public Student	{
 public:
 	const string& get_diploma_thema()const;
 	string& set_diploma_thema(const string& diploma_thema);
-	void print() const;
+	ostream& print(ostream& out) const;
+	void print() const override;
 	Graduate(
 		const string& name, const string& surname, int age, bool gender,
 		const string& group, double rating, double attendence, const string& speccialty,
@@ -105,6 +117,18 @@ public:
 private:
 	string diploma_thema;
 };
+
+class Basa {
+public:
+	void print(Human* Hm) {
+		Hm->print();
+		cout << endl;
+	}
+
+private:
+
+};
+
 
 
 

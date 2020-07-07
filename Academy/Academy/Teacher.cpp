@@ -25,6 +25,14 @@ string& Teacher::set_specialty(const string& specialty) {
 bool Teacher::set_evil(bool evil) {
 	return this->evil = evil;
 }
+ostream& Teacher::print(ostream& out) const {
+	Human::print(out);
+	cout << "\tSubject:\t" << get_subject() << endl;
+	cout << "\tExperience:\t" << get_experience() << " ears" << endl;
+	cout << "\tSpecialty:\t" << get_specialty() << endl;
+	cout << "\tEvil:\t\t" << ((get_evil() == true) ? "Evil" : "Not angry") << endl;
+	return out;
+}
 void Teacher::print() const {
 	Human::print();
 
@@ -56,4 +64,5 @@ Teacher::Teacher
 }
 
 Teacher::~Teacher() {
+	cout << "Destructor Teacher" << endl;
 }

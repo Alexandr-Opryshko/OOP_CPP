@@ -34,6 +34,20 @@ Human::Human(const string& name, const string& surname, int age, bool gender) {
 }
 
 Human::~Human() {
+	cout << "Destructor Human" << endl;
+}
+ostream& operator<<(ostream& out, const Human& other) 
+{
+	// ƒелегируем выполнение операции вывода методу print()
+	return other.print(out);
+}
+ostream& Human::print(ostream& out) const {
+	out << "Human" << endl;
+	cout << "\tName:\t\t" << get_name() << endl;
+	cout << "\tSurName:\t" << get_surname() << endl;
+	cout << "\tAge:\t\t" << get_age() << " ears" << endl;
+	cout << "\tGender:\t\t" << ((get_gender() == true) ? "Male" : "Female") << endl;
+	return out;
 }
 
 void Human::print() const {
