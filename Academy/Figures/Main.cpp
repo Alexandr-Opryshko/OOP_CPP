@@ -5,7 +5,7 @@
 void main() {
 	setlocale(LC_ALL, "");
 
-	Square sq();
+	Square sq;
 	
 
 

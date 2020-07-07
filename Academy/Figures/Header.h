@@ -20,7 +20,6 @@ public:
 	int set_length(int length);
 	int set_width(int width);
 	Square(int lenght = 0, int width = 0);
-	Square();
 	~Square();
 
 private:

@@ -19,13 +19,9 @@ int Square::set_width(int width) {
 	return this->width = width;
 }
 
-Square::Square(int lenght = 0, int width = 0) {
+Square::Square(int lenght, int width) {
 	set_length(lenght);
 	set_width(width);
-}
-Square::Square() {
-	this->length = 0;
-	this->width = 0;
 }
 Square::~Square() {
 }
