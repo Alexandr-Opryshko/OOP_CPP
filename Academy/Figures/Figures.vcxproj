@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{434e4a2f-73f6-4a5e-a461-44d444c098f1}</ProjectGuid>
-    <RootNamespace>TheZoo</RootNamespace>
+    <ProjectGuid>{67de25d7-ecd5-463b-885c-4b45d7b84907}</ProjectGuid>
+    <RootNamespace>Figures</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -20,7 +20,8 @@ void main() {
 	for (int i = 0; i < size(group);i++) {
 		delete group[i];
 	}
-	//basa.print(&Student("Даня", "Дудченко", 17, true, "PV_911", 100, 100, "Программист"));
+	Basa basa;
+	basa.print(&Student("Даня", "Дудченко", 17, true, "PV_911", 100, 100, "Программист"));
 
 		//Human A("Viktor","Tichev",20,true);
 		//cout << A << endl;
