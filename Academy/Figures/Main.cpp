@@ -5,8 +5,10 @@
 void main() {
 	setlocale(LC_ALL, "");
 
-	Square sq;
+	Object Obj;
+	Square sq(4,5);
 	
 
+	Obj.print(&sq);
 
 }
