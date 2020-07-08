@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+//################################ Некая виртуальная фигура с общими свойствами ################
 class Figures {
 public:
 	virtual void print() = 0;
@@ -13,6 +15,7 @@ protected:
 	long perimeter;
 };
 
+//################################ Фигура "Квадрат" ################
 class Square: public Figures {
 public:
 	void print() override;
@@ -33,13 +36,13 @@ private:
 	int width;
 };
 
+//################################
 
 
-
-
-
+//################################ Объект получающий в виде параметров конкретную  фигуру ################
 class Object {
 public:
+
 	void print(Figures* obj) {
 		obj->print();
 	}

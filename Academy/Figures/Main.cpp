@@ -5,10 +5,10 @@
 void main() {
 	setlocale(LC_ALL, "");
 
-	Object Obj;
-	Square sq(4,5);
+	Object Obj;					// создаем объект
+	Square sq(4,5);				// создадим квадрат
 	
 
-	Obj.print(&sq);
+	Obj.print(&sq);				// передадим в консоль объекта фигуру квадрат
 
 }
