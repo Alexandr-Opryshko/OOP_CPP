@@ -80,6 +80,8 @@ public:
 private:
 	long set_perimeter(long perimeter);
 	float set_area(float area);
+	
+	double leftShift;
 };
 
 //################################

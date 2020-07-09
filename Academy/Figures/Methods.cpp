@@ -1,5 +1,6 @@
 #include"Header.h"
 
+using namespace std;
 //#################################################################################################
 void Square::print() {
 	cout << endl;
@@ -56,7 +57,7 @@ Square::Square(int lenght, int width) {
 	set_length(lenght);
 	set_width(width);
 	set_perimeter(this->length * 2 + this->width * 2);
-	set_area(this->length * this->width);
+	set_area((float)this->length * this->width);
 }
 Square::~Square() {
 }
@@ -146,32 +147,73 @@ Rhombus::Rhombus(int side, int angle) {
 	set_angle(angle);
 	set_perimeter(side * 4);
 	double Pi = 2 * acos(0.0);
-	set_area((float)pow(side,2) * sin((float)get_angle() * Pi / 180));
+	set_area((float)pow(side,2) * (float)sin((float)get_angle() * Pi / 180));
 	this->leftShift = side * cos((double)(get_angle()) * Pi / 180);
 }
 //####################################################################################
 void Triangle::print() {
-	cout << "\tside = " << get_width() << " x " << get_width() << " x " << get_hieght() << " px.\t" << endl;
+	if (get_angle() > 90 || get_angle() <= 0) {
+		cout << "The angle at the base is more than 90 degrees. The legs and hippotenus are not correctly set." << endl;
+		cout << "Triangle not created." << endl;
+		return;
+	}
+	cout << endl;
+
+	int h = length / ((int)90 / this->angle);			// вычислим высоту треугольника по стороне a и углу стороны a к гиппотенузе
+	double shag = h != 0 ? leftShift / h : leftShift;	// вычислим шаг смещения при переходах на новую строку
+	double temp = h != 0 ? leftShift : 0;				// запишим стартовое смешение верхней части
+	
+	double shagCentr = (double)hieght / h;
+	double tempCentr = shagCentr;
+	for (int i = 0; i <= h; i++) {						// пройдем по всей высоте ромба
+		cout << "\t";
+		for (int s = 0; s < (int)temp; s++) {			// выполняем смещение верхней части
+			cout << "  ";
+		}
+		temp -= shag;									// изменим смещение для следующего раза
+		if ((i == 0) || (i == h)) {						// если это верхний или нижний ряд
+			if (i == 0) {								// если это верхний ряд
+				cout << " * ";
+			}
+			if (i == h) {								// если это нижний ряд
+				for (int j = 0; j < hieght; j++) {		// пролинеем сплошную линию
+					cout << "* ";
+				}
+			}
+			cout << endl;
+		}
+		else {											// иначе это средняя часть треугольника
+			cout << "* ";								// вертикальная левая точка
+			for (int j = 0; j < tempCentr; j++) {			// перейдем к крайней правой точке
+				cout << "  ";
+			}
+			tempCentr += shagCentr;
+			cout << "*" << endl;						// вертикальная правая точка
+		}
+
+	}
+	cout << "\tside = " << get_length() << " x " << get_width() << " x " << get_hieght() << " px.\t" << endl;
+	cout << "\tangle a = " << get_angle() << " grad.\t" << endl;
 	cout << "\tS = " << get_area() << " px2." << endl;
 	cout << "\tP = " << get_perimeter() << " px." << endl;
 }
 const int Triangle::get_length() const {
-	this->length;
+	return this->length;
 }
 const int Triangle::get_width() const {
-	this->width;
+	return this->width;
 }
 const int Triangle::get_hieght() const {
-	this->hieght;
+	return this->hieght;
 }
 const int Triangle::get_angle() const {
-	this->angle;
+	return this->angle;
 }
 const long Triangle::get_perimeter() const {
-	this->perimeter;
+	return this->perimeter;
 }
 const float Triangle::get_area() const {
-	this->area;
+	return this->area;
 }
 int Triangle::set_length(int length) {
 	if (length < 0) length = -length;
@@ -186,13 +228,7 @@ int Triangle::set_hieght(int hieght) {
 	return this->hieght = hieght;
 }
 int Triangle::set_angle(int angle) {
-	if (angle < 0) angle = -angle;
-	if (angle > 180) {
-		int y;
-		y = (angle / 180) * 180;
-		angle = angle - y;
-	}
-	if (angle > 90) angle = (360 - (angle * 2)) / 2;
+	
 	return this->angle = angle;
 }
 long Triangle::set_perimeter(long perimeter) {
@@ -206,10 +242,14 @@ Triangle::Triangle(int a, int b, int c) {
 	set_length(a);
 	set_width(b);
 	set_hieght(c);
-	int p = set_perimeter(a+b+c) / 2;
-	
-	set_area
-	(
-		(p * (p - a) * (p - b) * (p - c))
-	);	//S = корень p*(p-a)*(p-b)*(p-c)     p = perimetr/2
+	double Pi = 2 * acos(0.0);
+	long numerator = (long)pow(a, 2) + (long)pow(c, 2) - (long)pow(b, 2);
+	long denominator = (long)2 * a * c;
+	double rezult = (double)numerator / denominator;
+	double ang = rezult < 0 ? -1: 180 / Pi * acos(rezult);
+	set_angle( ang ); // cos a = (c2 + a2 - b2) / (2 * c * a)
+	long p = set_perimeter(a+b+c) / 2;
+	set_area( (float)sqrt(p * (p - a) * (p - b) * (p - c)) );	//S = корень p*(p-a)*(p-b)*(p-c)     p = perimetr/2
+
+	this->leftShift = a * cos((double)(get_angle()) * Pi / 180);	
 }

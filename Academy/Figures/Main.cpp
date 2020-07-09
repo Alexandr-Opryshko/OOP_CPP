@@ -11,6 +11,10 @@ void main() {
 	{
 		new Square(4, 5),		// создадим квадрат
 		new Square(5,5),
+		new Triangle(20,30,30),
+		new Triangle(10,20,25),
+		new Triangle(20,20,30),
+		new Triangle(20,30,30),
 		new Rhombus(40,2),
 		new Rhombus(40,5),
 		new Rhombus(40,20),
@@ -29,6 +33,6 @@ void main() {
 	}
 
 	for (int i = 0; i < size(group); i++) {
-		delete group[i];
+		delete group[i];					// удалим фигуры
 	}
 }
