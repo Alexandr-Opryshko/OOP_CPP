@@ -4,7 +4,35 @@ using namespace std;
 //#################################################################################################
 void Square::print() {
 	cout << endl;
+	HWND hwnd = GetConsoleWindow();
+	HDC hdc = GetDC(hwnd);
+
+	int x = 0;
+	for (float i = 0; i < 3.14 * 10; i += 0.05) {
+		SetPixel(hdc, 50 + 25 * cos(i), x, RGB(255, 255, 255));
+		x += 1;
+	}
 	for (int i = 0; i < this->length; i++) {
+		cout << "\t";
+		if ((i == 0) || (i == this->length - 1)) {
+			for (int j = 0; j < width; j++) {
+				SetPixel(hdc, i, j, RGB(255, 255, 255));
+			}
+			cout << endl;
+		}
+		else {
+			SetPixel(hdc, 0, i, RGB(255, 255, 255));
+			for (int j = 2; j < width; j++) {
+				SetPixel(hdc, i, j, RGB(255, 255, 255));
+			}
+			SetPixel(hdc, 0, i, RGB(255, 255, 255));
+		}
+	}
+
+
+
+
+	/*for (int i = 0; i < this->length; i++) {
 		cout << "\t";
 		if ((i == 0) || (i == this->length - 1)) 
 		{
@@ -20,7 +48,7 @@ void Square::print() {
 			}
 			cout << "*" << endl;
 		}
-	}
+	}*/
 	cout << endl;
 	cout << "\twidth = " << get_width() << " px.\t" << endl;
 	cout << "\tlength = " << get_length() << " px.\t" << endl;

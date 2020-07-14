@@ -1,4 +1,6 @@
 #pragma once
+#include <windows.h>
+#include <cmath>
 #include<iostream>
 #include<string>
 #include<math.h>
