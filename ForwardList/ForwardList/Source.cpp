@@ -29,11 +29,13 @@ public:
 		cout << "LDestructor:\t" << this << endl;
 	}
 	// Method
+	// добавить в начало списка
 	void push_front(int Data) {
 		Element* New = new Element(Data);		// создаем новый элемент, и сохраняем в него добавляемое значение
 		New->pNext = Head;
 		Head = New;
 	}
+	// добавить в конец списка
 	void push_back(int Data) {
 		if (Head == nullptr) {
 			push_front(Data);
@@ -73,38 +75,38 @@ public:
 		Element* Temp = Head;							// запишим начальный адрес lista
 		Element* TempStep = Temp->pNext;				// запишим адрес следующего элемента lista
 		for (int i = 0; i < index - 1; i++) {			// перейдем к указанному индексу
-			if (TempStep == nullptr) return false;		// 
-			Temp = Temp->pNext;
-			TempStep = TempStep->pNext;
+			if (TempStep == nullptr) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
+			Temp = Temp->pNext;							// перейдем к следующему элементу
+			TempStep = TempStep->pNext;					// перейдем к последующему элементу
 		}
-		New->pNext = TempStep;
-		Temp->pNext = New;
+		New->pNext = TempStep;							// произведем запись в элемент последующего элемента
+		Temp->pNext = New;								// а в предыдущий адрес нового элемента
 
 		return true;
 	}
 	// удаление элемента по индексу
 	bool erase(int index) {
-		Element* Temp = Head;
-		Element* TempStep = Temp->pNext;
-		if (index == 0) {
+		Element* Temp = Head;								// запишим начальный адрес листа
+		Element* TempStep = Temp->pNext;					// и последующего элемента
+		if (index == 0) {									// если удаляется 0-й элемент
 			Head = TempStep;
 		}
 		else {
-			for (int i = 0; i < index - 1; i++) {			// перейдем к указанному индексу
-				if (TempStep == nullptr) return false;		// 
-				Temp = Temp->pNext;
-				TempStep = TempStep->pNext;
+			for (int i = 0; i < index - 1; i++) {			// перейдем к указанному элементу по индексу
+				if (TempStep == nullptr) return false;		// если конец листа - выйдем с предупреждением
+				Temp = Temp->pNext;							// переход к следующему элементу
+				TempStep = TempStep->pNext;					// переход к последующему элементу
 			}
-			if (TempStep != nullptr) {
-				Temp->pNext = TempStep->pNext;
-				Temp = TempStep;
+			if (TempStep != nullptr) {						// если это не последний элемент
+				Temp->pNext = TempStep->pNext;				// запишим адрес элемента хранящегося в последующем
+				Temp = TempStep;							// и удалим элемент перезаписав адрес последующего
 			}
-			else {
-				Temp->pNext = nullptr; 
-				return false;
+			else {											// иначе
+				Temp->pNext = nullptr;						// запишим конечный адрес листа
+				return false;								// и выйдем с предупреждением что это конец списка
 			}
 		}
-		return true;
+		return true;										// выйдем с удачным удалением элемента
 	}
 
 	void print() {
@@ -130,6 +132,8 @@ void main() {
 		list.push_back(rand() % 100);
 		//list.push_front(rand() % 100);
 	}	
+	cout << endl;
+
 	list.push_back(123);
 	list.print();
 	cout << endl;
