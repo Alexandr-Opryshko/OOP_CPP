@@ -30,47 +30,60 @@ public:
 		cout << "LDestructor:\t" << this << endl;
 	}
 	// Method
+	bool ErrDelElementList() {
+		if (Head == nullptr) {
+			this->IndexList = 0;				// колличество элементов
+			return false;						// дальнейшая работа запрещена
+		}
+		else if (this->IndexList <= 1) {		// если элементов 0 или 1
+			Head = nullptr;						// просто очистим указатель
+			this->IndexList = 0;				// и колличество элементов
+			return false;						// дальнейшая работа запрещена
+		}
+		return true;
+	}
 	// добавить в начало списка
 	void push_front(int Data) {
 		Element* New = new Element(Data);		// создаем новый элемент, и сохраняем в него добавляемое значение
-		New->pNext = Head;
-		Head = New;
-		this->IndexList++;
+		New->pNext = Head;						// заносим адрес первого элемента (теперь второго)
+		Head = New;								// заносим адрес нового элемента ка первого
+		this->IndexList++;						// увеличим счетчик элементов на один
 	}
 	// добавить в конец списка
 	void push_back(int Data) {
-		if (Head == nullptr) {
-			push_front(Data);
-			return;
+		if (Head == nullptr) {					// если колличество элементов 0
+			push_front(Data);					// создадим первый элемент
+			return;								// и выйдем
 		}
-		Element* New = new Element(Data);
-		Element* Temp = Head;
-		while (Temp->pNext) {
+		Element* New = new Element(Data);		// иначе создаем новый элемент
+		Element* Temp = Head;					// копируем адрес начала списка элементов
+		while (Temp->pNext) {					// проходим по каждому элементу в конец списка
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = New;
-		this->IndexList++;
+		Temp->pNext = New;						// и добавляем в конец списка новый элемент
+		this->IndexList++;						// увеличим счетчик элементов на 1
 	}
 	// удаление первого элемента
 	void pop_front() {
-		Element* Temp = Head;
-		if (Temp->pNext) {
-			Temp = Temp->pNext;
-			Head = Temp;
-			this->IndexList--;
-		}
-		else {
-			Head = nullptr;
-			this->IndexList = 0;
-		}
+		if(ErrDelElementList() == false) return;	// проверка наличия больше чем одного элемента в списке
+		//if (this->IndexList <= 1) {				// если элементов 0 или 1
+		//	Head = nullptr;						// просто очистим указатель
+		//	this->IndexList = 0;				// и колличество элементов
+		//	return;
+		//}
+		Element* Temp = Head;					// иначе скопируем адрес начала списка
+		Temp = Temp->pNext;						// перейдем к следующему после удаляемого элементу
+		Head = Temp;							// запишим его адрес как первый в списке
+		this->IndexList--;						// уменьшим список на 1 элемент
 	}
 	// удаление последнего элемента
 	void pop_back() {
-		if(this->IndexList <= 1){						// если элементов 0 или 1
-			Head = nullptr;								// просто очистим указатель
-			this->IndexList = 0;						// и колличество элементов
-			return;
-		}
+		if (ErrDelElementList() == false) return;	// проверка наличия больше чем одного элемента в списке
+		//if(this->IndexList <= 1){						// если элементов 0 или 1
+		//	Head = nullptr;								// просто очистим указатель
+		//	this->IndexList = 0;						// и колличество элементов
+		//	return;
+		//}
 		Element* Temp = Head;							// скопируем начальный адрес листа
 		Element* TempStep = Temp->pNext;				// скопируем последующий адрес элемента листа
 		while (TempStep->pNext) {						// дойдем до последнего элемента листа
@@ -83,7 +96,10 @@ public:
 	}
 	// вставить значение по индексу
 	bool insert(int Data, int index) {
-		if (this->IndexList < index) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
+		while (this->IndexList < index) {				// если индек находится за пределами листа
+			push_back(0);								// добавляем в конец листа пустые элементы пока не дойдем до индекса вставки
+		}
+//		if (this->IndexList < index) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
 		Element* New = new Element(Data);				// создадим элемент
 		Element* Temp = Head;							// запишим начальный адрес lista
 		Element* TempStep = Temp->pNext;				// запишим адрес следующего элемента lista
