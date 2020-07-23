@@ -23,6 +23,7 @@ class ForwardList {
 public:
 	ForwardList() {
 		this->Head = nullptr;
+		this->IndexList = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
 	~ForwardList() {
@@ -34,6 +35,7 @@ public:
 		Element* New = new Element(Data);		// создаем новый элемент, и сохраняем в него добавляемое значение
 		New->pNext = Head;
 		Head = New;
+		this->IndexList++;
 	}
 	// добавить в конец списка
 	void push_back(int Data) {
@@ -47,6 +49,7 @@ public:
 			Temp = Temp->pNext;
 		}
 		Temp->pNext = New;
+		this->IndexList++;
 	}
 	// удаление первого элемента
 	void pop_front() {
@@ -54,58 +57,71 @@ public:
 		if (Temp->pNext) {
 			Temp = Temp->pNext;
 			Head = Temp;
+			this->IndexList--;
 		}
 		else {
 			Head = nullptr;
+			this->IndexList = 0;
 		}
 	}
 	// удаление последнего элемента
 	void pop_back() {
-		Element* Temp = Head;
-		Element* TempStep = Temp->pNext;
-		while (TempStep->pNext) {
-			TempStep = TempStep->pNext;
-			Temp = Temp->pNext;
+		if(this->IndexList <= 1){						// если элементов 0 или 1
+			Head = nullptr;								// просто очистим указатель
+			this->IndexList = 0;						// и колличество элементов
+			return;
 		}
-		Temp->pNext = nullptr;
+		Element* Temp = Head;							// скопируем начальный адрес листа
+		Element* TempStep = Temp->pNext;				// скопируем последующий адрес элемента листа
+		while (TempStep->pNext) {						// дойдем до последнего элемента листа
+			TempStep = TempStep->pNext;					// меняя адрес последующего элемента
+			Temp = Temp->pNext;							// меняя адрес текующего элемента
+		}
+		Temp->pNext = nullptr;							// очистим адрес последующего элемента в текущем
+		this->IndexList--;								// и уменьшим индекс колличества элементов
+		return;
 	}
 	// вставить значение по индексу
 	bool insert(int Data, int index) {
+		if (this->IndexList < index) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
 		Element* New = new Element(Data);				// создадим элемент
 		Element* Temp = Head;							// запишим начальный адрес lista
 		Element* TempStep = Temp->pNext;				// запишим адрес следующего элемента lista
 		for (int i = 0; i < index - 1; i++) {			// перейдем к указанному индексу
-			if (TempStep == nullptr) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
 			Temp = Temp->pNext;							// перейдем к следующему элементу
 			TempStep = TempStep->pNext;					// перейдем к последующему элементу
 		}
 		New->pNext = TempStep;							// произведем запись в элемент последующего элемента
 		Temp->pNext = New;								// а в предыдущий адрес нового элемента
+		this->IndexList++;
 
 		return true;
 	}
 	// удаление элемента по индексу
 	bool erase(int index) {
-		Element* Temp = Head;								// запишим начальный адрес листа
-		Element* TempStep = Temp->pNext;					// и последующего элемента
-		if (index == 0) {									// если удаляется 0-й элемент
+		if (this->IndexList <= index) return false;		// выйдем с предупреждением о нахождении индекса за пределами списка
+		Element* Temp = Head;							// запишим начальный адрес листа
+		Element* TempStep = Temp->pNext;				// и последующего элемента
+		if (index == 0) {								// если удаляется 0-й элемент
 			Head = TempStep;
 		}
 		else {
-			for (int i = 0; i < index - 1; i++) {			// перейдем к указанному элементу по индексу
-				if (TempStep == nullptr) return false;		// если конец листа - выйдем с предупреждением
-				Temp = Temp->pNext;							// переход к следующему элементу
-				TempStep = TempStep->pNext;					// переход к последующему элементу
+			for (int i = 0; i < index - 1; i++) {		// перейдем к указанному элементу по индексу
+				if (TempStep == nullptr) return false;	// если конец листа - выйдем с предупреждением
+				Temp = Temp->pNext;						// переход к следующему элементу
+				TempStep = TempStep->pNext;				// переход к последующему элементу
 			}
-			if (TempStep != nullptr) {						// если это не последний элемент
-				Temp->pNext = TempStep->pNext;				// запишим адрес элемента хранящегося в последующем
-				Temp = TempStep;							// и удалим элемент перезаписав адрес последующего
+			if (TempStep != nullptr) {					// если это не последний элемент
+				Temp->pNext = TempStep->pNext;			// запишим адрес элемента хранящегося в последующем
+				Temp = TempStep;						// и удалим элемент перезаписав адрес последующего
 			}
-			else {											// иначе
-				Temp->pNext = nullptr;						// запишим конечный адрес листа
-				return false;								// и выйдем с предупреждением что это конец списка
+			else {										// иначе
+				Temp->pNext = nullptr;					// запишим конечный адрес листа
+				return false;							// и выйдем с предупреждением что это конец списка
 			}
 		}
+		if (this->IndexList != 0)
+			this->IndexList--;
 		return true;										// выйдем с удачным удалением элемента
 	}
 
@@ -116,9 +132,12 @@ public:
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			Temp = Temp->pNext;					// переход на следующий элемент
 		}
+
+		cout << endl << tab << "Элементов в list: "<<this->IndexList << endl;
 	}
 private:
 	Element* Head;
+	int IndexList;
 };
 
 
@@ -152,8 +171,20 @@ void main() {
 	list.print();
 	cout << endl;
 
-	if (list.erase(0) == false) {
+	if (list.erase(4) == false) {
 		cout << tab << "ОШИБКА УДАЛЕНИЯ ЭЛЕМЕНТА. НАХОДИТСЯ ЗА ПРЕДЕЛАМИ lista" << endl;
 	}
 	list.print();
+
+
+
+	list.pop_back();
+	list.print();
+	cout << endl;list.pop_back();
+	list.print();
+	cout << endl;list.pop_back();
+	list.print();
+	cout << endl;list.pop_back();
+	list.print();
+	cout << endl;
 }
