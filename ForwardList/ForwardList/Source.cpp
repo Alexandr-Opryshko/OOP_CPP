@@ -151,6 +151,7 @@ void main() {
 		list.push_back(rand() % 100);
 		//list.push_front(rand() % 100);
 	}	
+	list.print();
 	cout << endl;
 
 	list.push_back(123);
@@ -176,15 +177,9 @@ void main() {
 	}
 	list.print();
 
-
-
-	list.pop_back();
-	list.print();
-	cout << endl;list.pop_back();
-	list.print();
-	cout << endl;list.pop_back();
-	list.print();
-	cout << endl;list.pop_back();
-	list.print();
-	cout << endl;
+	cout << "На сколько элементов очистить лист: "; cin >> n;
+	for (int i = 0; i < n; i++) {
+		list.pop_back();
+		list.print();
+	}
 }
