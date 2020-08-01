@@ -50,11 +50,11 @@ public:
 		}
 	}
 	// конструктор копирования
-	ForwardList(const Element &Head) {
+	ForwardList(const ForwardList &Head) {
 		cout << "CopyConstructor:\t" << this << endl;
 		this->Head = nullptr;
 		this->IndexList = 0;
-		push_back_list(Head.pNext);
+		push_back_list(Head.Head);
 	}
 	// Конструктор на заданное колличество элементов
 	ForwardList(int len) {
@@ -181,8 +181,23 @@ public:
 		cout << endl << tab << "Элементов в list: "<<this->IndexList << endl;
 	}
 
-	//Element operator = (const Element* Head);
-	//Element operator += (Element* Head);
+	void operator = (const ForwardList& Head) {
+		cout << "AssignConstructor:\t" << this << endl;
+		for (Element* temp = this->Head;temp;) {
+			Element* to_del = temp;
+			temp = temp->pNext;
+			delete to_del;
+		}
+		this->Head = nullptr;
+		this->IndexList = 0;
+		push_back_list(Head.Head);
+		return;
+	}
+	ForwardList operator +(const ForwardList& Head) {
+		//Element* temp;
+		//this->push_back_list(Head.Head);
+		//return *this;
+	}
 	int operator[](int index) {
 
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext) {
@@ -200,8 +215,8 @@ private:
 
 //В класс ForwardList добавить :
 //							1. Деструктор;
-//2. Конструктор копирования;
-//3. Оператор присваивания;
+//							2. Конструктор копирования;
+//							3. Оператор присваивания;
 //4. Оператор + , который будет конкатенировать списки;
 //5. MoveMethods;
 //							6. Конструктор на заданное число элементов ForwardList list(5), элементы должны быть заполнены нулями;
@@ -215,12 +230,23 @@ void main() {
 	list.print();*/
 	ForwardList list1;
 	list1.push_back(3);
+	list1.push_back(7);
+	list1.push_back(15);
+	list1.push_back(30);
 	list1.print();
-	
+
+	ForwardList list2{ 1,2,3,4,5,-1 };
+	list2.print();
+	ForwardList list3;
+	list3 = list1 + list2;
+	list3.print();
+	/*ForwardList list2(list1);
+	list2.print();*/
+	/*
 	ForwardList list2{1,2,3,4,5,-1};
 	list2.print();
 	int Data = list2[3];
-	cout << Data << endl;
+	cout << Data << endl;*/
 
 
 	/*list1.insert(111, 1);
