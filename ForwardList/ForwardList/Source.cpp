@@ -203,23 +203,14 @@ public:
 		cout << "MoveAssignment\t\t" << this << endl;
 		return *this;
 	}
-
-	//// move assignment
-	//String& operator= (String&& other) {
-	//	delete[] this->str;
-	//	this->size = other.size;
-	//	this->str = other.str;
-	//	other.str = nullptr;
-	//	cout << "MoveAssignment\t\t" << this << endl;
-	//	return *this;
-	//}
-
+	// оператор сложения
 	ForwardList operator +(const ForwardList& Head) const {
 		ForwardList temp;
 		temp.push_back_list(this->Head);
 		temp.push_back_list(Head.Head);
 		return temp;
 	}
+	// оператор перехода по индексу
 	int operator[](int index) {
 
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext) {
