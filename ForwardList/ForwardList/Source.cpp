@@ -111,11 +111,8 @@ public:
 	// добавляет в конец весь лист
 	void push_back_list(Element* Head1) {
 		if (Head == Head1) return;
-		while (Head) {						// проходим по каждому элементу в конец списка
-			Head = Head->pNext;
-		}
 		for (Element* Temp1 = Head1; Temp1;Temp1 = Temp1->pNext) {
-			push_back(Temp1->Data);
+			this->push_back(Temp1->Data);
 		}
 	}
 
@@ -180,7 +177,7 @@ public:
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << endl << tab << "Элементов в list: "<<this->IndexList << endl;
 	}
-
+	// оператор присвоить
 	void operator = (const ForwardList& Head) {
 		cout << "AssignConstructor:\t" << this << endl;
 		for (Element* temp = this->Head;temp;) {
@@ -193,10 +190,35 @@ public:
 		push_back_list(Head.Head);
 		return;
 	}
-	ForwardList operator +(const ForwardList& Head) {
-		//Element* temp;
-		//this->push_back_list(Head.Head);
-		//return *this;
+	// move assignment
+	ForwardList& operator= (ForwardList&& Head) {
+		for (Element* temp = this->Head;temp;) {
+			Element* to_del = temp;
+			temp = temp->pNext;
+			delete to_del;
+		}
+		this->Head = nullptr;
+		this->IndexList = 0;
+		push_back_list(Head.Head);
+		cout << "MoveAssignment\t\t" << this << endl;
+		return *this;
+	}
+
+	//// move assignment
+	//String& operator= (String&& other) {
+	//	delete[] this->str;
+	//	this->size = other.size;
+	//	this->str = other.str;
+	//	other.str = nullptr;
+	//	cout << "MoveAssignment\t\t" << this << endl;
+	//	return *this;
+	//}
+
+	ForwardList operator +(const ForwardList& Head) const {
+		ForwardList temp;
+		temp.push_back_list(this->Head);
+		temp.push_back_list(Head.Head);
+		return temp;
 	}
 	int operator[](int index) {
 
@@ -217,8 +239,8 @@ private:
 //							1. Деструктор;
 //							2. Конструктор копирования;
 //							3. Оператор присваивания;
-//4. Оператор + , который будет конкатенировать списки;
-//5. MoveMethods;
+//							4. Оператор + , который будет конкатенировать списки;
+//							5. MoveMethods;
 //							6. Конструктор на заданное число элементов ForwardList list(5), элементы должны быть заполнены нулями;
 //							7. Оператор[];
 //							8. ForwardList list{ 3, 5, 8, 13, 21 }; for (int i = 0; i < list.size; i++)cout << list[i] << tab;cout << endl;
