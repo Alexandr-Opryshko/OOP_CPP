@@ -50,6 +50,7 @@ public:
 			push_back(*ptr);
 		}
 	}
+
 	// конструктор копирования
 	ForwardList(const ForwardList &Head) {
 		cout << "CopyConstructor:\t" << this << endl;
@@ -58,12 +59,15 @@ public:
 		push_back_list(Head.Head);
 	}
 	// Конструктор на заданное колличество элементов
-	ForwardList(int len) {
-		this->Head = nullptr;
+	ForwardList(size_t len) {
+		while (len--) {
+			push_front(0);
+		}
+		/*this->Head = nullptr;
 		this->IndexList = 0;
 		for (int i = 0; i < len; i++) {
 			push_front(0);
-		}
+		}*/
 	}
 	// Method
 	void Set_IndexList(int IndexList) {
@@ -212,13 +216,12 @@ public:
 		return temp;
 	}
 	// оператор перехода по индексу
-	int operator[](int index) {
+	int& operator[](int index) {
 
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext) {
 			if (index-- == 0)
 				return Temp->Data;
 		}
-		return -1;
 	}
 
 private:
@@ -242,6 +245,8 @@ void main() {
 
 	/*ForwardList list{ 3, 5, 8, 13, 21, -1 };
 	list.print();*/
+	ForwardList list14( 5 );
+	list14.print();
 	ForwardList list1;
 	list1.push_back(3);
 	list1.push_back(7);
@@ -254,6 +259,11 @@ void main() {
 	ForwardList list3;
 	list3 = list1 + list2;
 	list3.print();
+
+	cout  << endl;
+	cout << list2[3] << endl;
+	list2[30] = 5;
+	list2.print();
 	/*ForwardList list2(list1);
 	list2.print();*/
 	/*
