@@ -31,13 +31,14 @@ public:
 	}
 	// деструктор
 	~ForwardList() {
-		for (Element* Temp = Head; Temp; ) {
+		while (Head != nullptr) pop_front();
+		/*for (Element* Temp = Head; Temp;) {
 			Element* to_del = Temp;
 			Temp = Temp->pNext;
 			delete to_del;
 		}
 		this->Head = nullptr;
-		this->IndexList = -1;
+		this->IndexList = -1;*/
 		cout << "LDestructor:\t" << this << endl;
 	}
 	// конструктор с переменным колличеством параметров последнее значение всегда -1
