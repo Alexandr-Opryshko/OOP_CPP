@@ -47,17 +47,6 @@ public:
 #endif // DEBUG
 
 	}
-	// конструктор с переменным колличеством параметров последнее значение всегда -1
-	/*ForwardList(int size, int data, ...) {
-		cout << "ConstructorVariableParameters:\t" << this << endl;
-		this->Head = nullptr;
-		this->IndexList = 0;
-		int* ptr = &data;
-		while (size--) {
-			push_back(*ptr);
-			ptr++;
-		}
-	}*/
 	// конструктор с переменным колличеством параметров
 	ForwardList(const std::initializer_list<int> & il) {
 		cout << "ConstructorVariableParameters:\t" << this << endl;
