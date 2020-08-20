@@ -2,18 +2,25 @@
 using namespace std;
 
 #define tab	"\t"
+#define DEBUG
 
 class Element {
 public:
 
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext) {
 
+#ifdef DEBUG
 		cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Element() {
 		Data = 0;
 		pNext = nullptr;
+#ifdef DEBUG
 		cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	friend class ForwardList;
 
@@ -27,15 +34,21 @@ public:
 	ForwardList() {
 		this->Head = nullptr;
 		this->IndexList = 0;
+#ifdef DEBUG
 		cout << "LConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	// деструктор
 	~ForwardList() {
 		while (Head != nullptr) pop_front();
+#ifdef DEBUG
 		cout << "LDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	// конструктор с переменным колличеством параметров последнее значение всегда -1
-	ForwardList(int size, int data, ...) {
+	/*ForwardList(int size, int data, ...) {
 		cout << "ConstructorVariableParameters:\t" << this << endl;
 		this->Head = nullptr;
 		this->IndexList = 0;
@@ -44,8 +57,14 @@ public:
 			push_back(*ptr);
 			ptr++;
 		}
+	}*/
+	// конструктор с переменным колличеством параметров
+	ForwardList(const std::initializer_list<int> & il) {
+		cout << "ConstructorVariableParameters:\t" << this << endl;
+		for (const int* it = il.begin(); it != il.end(); it++) {
+			push_back(*it);
+		}
 	}
-
 	// конструктор копирования
 	ForwardList(const ForwardList &Head) {
 		cout << "CopyConstructor:\t" << this << endl;
@@ -61,9 +80,6 @@ public:
 		}
 	}
 	// Method
-	void Set_IndexList(int IndexList) {
-		this->IndexList = IndexList < 0 ? 0 : IndexList;
-	}
 	int Get_IndexList() const{
 		return this->IndexList;
 	}
@@ -202,7 +218,7 @@ public:
 	}
 	// оператор перехода по индексу
 	int& operator[](int index) {
-
+		if (index >= this->IndexList)throw std::exception("\t\tError: out of range");
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext) {
 			if (index-- == 0)
 				return Temp->Data;
@@ -230,17 +246,25 @@ void main() {
 
 	/*ForwardList list{ 3, 5, 8, 13, 21, -1 };
 	list.print();*/
-	ForwardList list14( 5 );
-	list14.print();
-	ForwardList list1;
+	//ForwardList list14( 100000 );
+	//list14.print();
+	/*ForwardList list1;
 	list1.push_back(3);
 	list1.push_back(7);
 	list1.push_back(15);
 	list1.push_back(30);
 	list1.print();
 
-	//ForwardList list2{5,1,2,3,4,5 };	// 0-й колличество элементов, и данные
-	//list2.print();
+	list14 = list1;
+	try {
+		list14[10] = 5;
+	}
+	catch (const std::exception& e) {
+		cerr << e.what() << endl;
+	}
+	list14.print();*/
+	ForwardList list2 = {5,1,2,3,4,5 };	// 0-й колличество элементов, и данные
+	list2.print();
 	//ForwardList list3;
 	//list3 = list1 + list2;
 	//list3.print();
