@@ -32,22 +32,17 @@ public:
 	// деструктор
 	~ForwardList() {
 		while (Head != nullptr) pop_front();
-		/*for (Element* Temp = Head; Temp;) {
-			Element* to_del = Temp;
-			Temp = Temp->pNext;
-			delete to_del;
-		}
-		this->Head = nullptr;
-		this->IndexList = -1;*/
 		cout << "LDestructor:\t" << this << endl;
 	}
 	// конструктор с переменным колличеством параметров последнее значение всегда -1
-	ForwardList(int data, ...) {
+	ForwardList(int size, int data, ...) {
 		cout << "ConstructorVariableParameters:\t" << this << endl;
 		this->Head = nullptr;
 		this->IndexList = 0;
-		for (int* ptr = &data; *ptr != -1; ptr++) {
+		int* ptr = &data;
+		while (size--) {
 			push_back(*ptr);
+			ptr++;
 		}
 	}
 
@@ -59,15 +54,11 @@ public:
 		push_back_list(Head.Head);
 	}
 	//  онструктор на заданное колличество элементов
-	ForwardList(size_t len) {
-		while (len--) {
+	ForwardList(int size) {
+		cout << "ConstructorGivenQuantityParameters:\t" << this << endl;
+		while (size--) {
 			push_front(0);
 		}
-		/*this->Head = nullptr;
-		this->IndexList = 0;
-		for (int i = 0; i < len; i++) {
-			push_front(0);
-		}*/
 	}
 	// Method
 	void Set_IndexList(int IndexList) {
@@ -85,12 +76,6 @@ public:
 	bool ErrDelElementList() {
 		if (Head == nullptr) {
 			this->IndexList = 0;				// колличество элементов
-			return false;						// дальнейша€ работа запрещена
-		}
-		else if (this->IndexList <= 1) {		// если элементов 0 или 1
-			delete  Head->pNext;
-			Head = nullptr;						// просто очистим указатель
-			this->IndexList = 0;				// и колличество элементов
 			return false;						// дальнейша€ работа запрещена
 		}
 		return true;
@@ -254,18 +239,18 @@ void main() {
 	list1.push_back(30);
 	list1.print();
 
-	ForwardList list2{ 1,2,3,4,5,-1 };
-	list2.print();
-	ForwardList list3;
-	list3 = list1 + list2;
-	list3.print();
+	//ForwardList list2{5,1,2,3,4,5 };	// 0-й колличество элементов, и данные
+	//list2.print();
+	//ForwardList list3;
+	//list3 = list1 + list2;
+	//list3.print();
 
-	cout  << endl;
-	cout << list2[3] << endl;
-	list2[30] = 5;
-	list2.print();
-	/*ForwardList list2(list1);
-	list2.print();*/
+	//cout  << endl;
+	//cout << list2[3] << endl;
+	//list2[30] = 5;
+	//list2.print();
+	//ForwardList list21(list1);
+	//list21.print();
 	/*
 	ForwardList list2{1,2,3,4,5,-1};
 	list2.print();
