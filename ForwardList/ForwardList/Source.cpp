@@ -14,6 +14,7 @@ public:
 #endif // DEBUG
 
 	}
+	
 	~Element() {
 		Data = 0;
 		pNext = nullptr;
@@ -22,14 +23,55 @@ public:
 #endif // DEBUG
 
 	}
+	
 	friend class ForwardList;
-
+	friend class Iterator;
 private:
 	int Data;
 	Element* pNext;
 };
+class Iterator {
+public:
+	Iterator(Element* Temp = nullptr) {
+		this->Temp = Temp;
+		cout << "ItConstructor:\t" << this << endl;
+	}
+	~Iterator() {
+		cout << "ItDestructor:\t" << this << endl;
+	}
+	Iterator& operator++() {
+		Temp = Temp->pNext;
+		return *this;
+	}
+	Iterator& operator++(int) {
+		Temp = Temp->pNext;
+		return *this;
+	}
+	bool operator!=(const Iterator& other) const {
+		return this->Temp != other.Temp;
+	}
+	bool operator!=(Element* other_el) const {
+		return this->Temp != other_el;
+	}
+	int& operator*() {
+		return Temp->Data;
+	}
+	// замена Temp != nulptr на Temp
+	operator bool()const {
+		return Temp;
+	}
+private:
+	Element* Temp;
+};
+
 class ForwardList{
 public:
+	Iterator begin() {
+		return Head;
+	}
+	Iterator end() {
+		return nullptr;
+	}
 	// конструктор по умолчанию 
 	ForwardList() {
 		this->Head = nullptr;
@@ -104,13 +146,12 @@ public:
 		this->IndexList++;							// увеличим счетчик элементов на 1
 	}
 	// добавл€ет в конец весь лист
-	void push_back_list(Element* Head1) {
-		if (Head == Head1) return;
-		for (Element* Temp1 = Head1; Temp1;Temp1 = Temp1->pNext) {
+	void push_back_list(Element* Head) {
+		if (Head == Head) return;
+		for (Element* Temp1 = Head; Temp1;Temp1 = Temp1->pNext) {
 			this->push_back(Temp1->Data);
 		}
 	}
-
 	// удаление первого элемента
 	void pop_front() {
 		if(ErrDelElementList() == false) return;	// проверка наличи€ больше чем одного элемента в списке
@@ -168,7 +209,7 @@ public:
 	}
 	// вывод элементов в консоль
 	void print() {
-		for(Element* Temp = Head; Temp; Temp = Temp->pNext)
+		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << endl << tab << "Ёлементов в list: "<<this->IndexList << endl;
 	}
@@ -213,6 +254,8 @@ public:
 				return Temp->Data;
 		}
 	}
+	
+	
 
 private:
 	Element* Head;
@@ -230,8 +273,19 @@ private:
 //							7. ќператор[];
 //							8. ForwardList list{ 3, 5, 8, 13, 21 }; for (int i = 0; i < list.size; i++)cout << list[i] << tab;cout << endl;
 
+
 void main() {
 	setlocale(LC_ALL, "");
+
+
+	ForwardList list{ 1,2,3,4,5,6 };
+	for (int i : list) {
+		cout << i << endl;
+	}
+	//for (Iterator Temp = list.Get_Head(); Temp/* != nullptr*/; 
+	//	Temp++) {
+	//	cout << *Temp << endl;
+	//}
 
 	/*ForwardList list{ 3, 5, 8, 13, 21, -1 };
 	list.print();*/
@@ -252,8 +306,9 @@ void main() {
 		cerr << e.what() << endl;
 	}
 	list14.print();*/
-	ForwardList list2 = {5,1,2,3,4,5 };	// 0-й колличество элементов, и данные
-	list2.print();
+	//ForwardList list2 = {5,1,2,3,4,5 };	// 0-й колличество элементов, и данные
+	//list2.print();
+	
 	//ForwardList list3;
 	//list3 = list1 + list2;
 	//list3.print();
