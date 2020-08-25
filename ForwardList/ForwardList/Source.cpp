@@ -209,8 +209,13 @@ public:
 	}
 	// вывод элементов в консоль
 	void print() {
-		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
-			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
+		/*for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;*/
+		/*for (Iterator Temp = begin(); Temp != end(); Temp++)
+			cout << *Temp << endl;*/
+		for (int i : *this) {
+			cout << i << endl;
+		}
 		cout << endl << tab << "Ёлементов в list: "<<this->IndexList << endl;
 	}
 	// оператор присвоить
@@ -282,6 +287,7 @@ void main() {
 	for (int i : list) {
 		cout << i << endl;
 	}
+	list.print();
 	//for (Iterator Temp = list.Get_Head(); Temp/* != nullptr*/; 
 	//	Temp++) {
 	//	cout << *Temp << endl;
