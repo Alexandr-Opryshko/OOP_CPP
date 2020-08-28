@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-
+#define tab	"\t"
 
 class List {
 public:
@@ -10,24 +10,155 @@ public:
 		cout << "LConstructor:\t" << this << endl;
 	}
 	~List() {
+		while (Head != nullptr) pop_front();
+		size = 0;
 		cout << "LDestructor:\t" << this << endl;
 	}
 	//---------------------------------------------------------------------
 	// Method
+	// добавить в начало списка
 	void push_front(int Data) {
-		/*Element* New = new Element(Data);
-		New->pNext = Head;
-		if (Head == nullptr) {
-			Tail = New;
+		if (Head == nullptr && Tail == nullptr)						// если список пустой
+			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
+		else Head = Head->pPrev = new Element(Data, Head);			// иначе указателю первого элемента  и голове присвоим адрес нового элемента
+		size++;														// увеличим список на 1 элемент
+	}
+	// удаление первого элемента
+	void pop_front() {
+		if (Head == nullptr && Tail == nullptr) return;				// проверка наличия элементов в списке
+		else if (size == 1) {										// если остался последний элемент
+			delete Tail;											// удалим элемент
+			Head = Tail = nullptr;									// и очистим указатели
 		}
-		else Head->pPrev = New;
-		Head = New;*/
-		if (Head == nullptr && Tail == nullptr) {
-		Head = Tail = new Element(Data, Head);
-		return;
+		else {														// иначе больше чем один элемент в списке
+			Head = Head->pNext;										// исключаем элемент из списка
+			delete Head->pPrev;										// удаляем элемент из памяти
+			Head->pPrev = nullptr;									// и очищаем указатель на удаленный элемент
 		}
-		Head = Head->pPrev = new Element(Data, Head);
-		size++;
+		size--;														// уменьшим список на 1 элемент
+	}
+	// добавить в конец списка
+	void push_back(int Data) {
+		if (Head == nullptr && Tail == nullptr)						// если список пустой
+			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
+		else Tail = Tail->pNext = new Element(Data, nullptr, Tail);	// иначе указателю последнего элемента  и хвосту присвоим адрес нового элемента
+		size++;														// увеличим список на 1 элемент
+	}
+	// удаление последнего элемента
+	void pop_back() {
+		if (Head == nullptr && Tail == nullptr) return;				// если список пустой
+		else if (size == 1) {										// если остался последний элемент
+			delete Tail;											// удалим элемент
+			Head = Tail = nullptr;									// и очистим указатели
+		}
+		else {														// иначе в списке более одного элемента
+			Tail = Tail->pPrev;										// запишим в хвост адрес предпоследнего элемента
+			delete Tail->pNext;										// удалим последний элемент
+			Tail->pNext = nullptr;									// и очистим указатель на удаленный элемент
+		}
+		size--;														// уменьшим колличество элементов в списке на один
+	}
+	// вставить значение по индексу
+	bool insert(int data, int index) {
+		if (index > (size) || index < 0) return false;
+		else if (index == 0) {										// если вставка на место первого элемента
+			push_front(data); return true;							// то вызовем метод
+		}
+		else if (index == size) {									// если вставка на место последнего элемента
+			push_back(data); return true;							// то вызовем метод
+		}
+		else if ((size / 2) >= index) {								// если вставка до середины списка
+			Element* Temp = Head;									// возьмем адрес головы листа
+			while (index--) {										// дойдем до указанного места
+				Temp = Temp->pNext;									// по списку
+			}
+			Temp->pPrev->pPrev->pNext = Temp->pPrev = new Element(data, Temp, Temp->pPrev);
+		}
+		else {														// иначе индекс ближе к хвосту
+			Element* Temp = Tail;									// возьмем адрес хвоста
+			index = size - index - 1;								// установим значение счетчика с хвоста
+			while (index--) {										// дойдем до указанного места
+				Temp = Temp->pPrev;									// по списку
+			}
+			Temp->pPrev->pPrev->pNext = Temp->pPrev = new Element(data, Temp, Temp->pPrev);
+		}
+		size++;														// увеличим список на 1 элемент
+		return true;
+	}
+	// удаление элемента по индексу
+	bool erase(int index) {
+		if (index > (size - 1) || index < 0) return false;
+		else if (index == 0) {										// если удаление первого элемента
+			pop_front(); return true;								// то вызовем метод
+		}
+		else if (index == size - 1) {								// если удаление последнего элемента
+			pop_back(); return true;								// то вызовем метод
+		}
+		else if ((size / 2) >= index) {								// если удаление до середины списка
+			Element* Temp = Head;									// возьмем адрес головы листа
+			while (index--) {										// дойдем до указанного места
+				Temp = Temp->pNext;									// по списку
+			}
+			Temp->pPrev->pNext = Temp->pNext;						// 
+			Temp->pNext->pPrev = Temp->pPrev;						// 
+			delete Temp;
+		}
+		else {														// иначе индекс ближе к хвосту
+			Element* Temp = Tail;									// возьмем адрес хвоста
+			index = size - index - 1;								// установим значение счетчика с хвоста
+			while (index--) {										// дойдем до указанного места
+				Temp = Temp->pPrev;									// по списку
+			}
+			Temp->pPrev->pNext = Temp->pNext;
+			Temp->pNext->pPrev = Temp->pPrev;
+			delete Temp;
+		}
+		size--;														// уменьшим список на 1 элемент
+		return true;
+	}
+
+	//CopyMethods;
+	//MoveMethods;
+	List& operator= (List&& Head) {
+		for (Element* temp = this->Head;temp;) {						// проверим на необходимость очистки листа
+			Element* to_del = temp;										// удалим элемент
+			temp = temp->pNext;											// перейдем к следующему
+			delete to_del;
+		}
+		// не удаляет последний элемент
+		//for (Element* temp = this->Head->pNext;temp;temp = temp->pNext) {						// проверим на необходимость очистки листа
+		//	
+		//	delete temp->pPrev;
+		//}
+		this->Head = this->Tail = nullptr;	
+		this->Head = this->Tail = new Element(Head.Head->Data);
+		this->size = 1;
+		for (Element* temp = Head.Head->pNext; temp;temp = temp->pNext) {
+			Tail = Tail->pNext = new Element(temp->Data, nullptr, Tail);
+			size++;
+		}
+		cout << "MoveAssignment\t\t" << this << endl;
+		return *this;
+	}
+	//operator+;
+	//operator+=;
+
+	// вывод элементов в консоль прямой ход
+	void print() {
+		cout << endl;
+		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+			cout << Temp->pPrev << tab <<  Temp << tab << Temp->Data << tab << Temp->pNext << endl;
+			
+		cout << endl << tab << "Элементов в list: " << this->size << endl;
+	}
+	// вывод элементов в консоль обратный ход
+	void printRevers() {
+		cout << endl;
+		for (Element* Temp = Tail; Temp; 
+			Temp = Temp->pPrev)
+			cout << Temp->pNext << tab << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
+		
+		cout << endl << tab << "Элементов в list: " << this->size << endl;
 	}
 	//_____________________________________________________________________
 private:
@@ -38,6 +169,9 @@ private:
 			cout << "EConstructor:\t" << this << endl;
 		}
 		~Element() {
+			Data = 0;
+			pNext = nullptr;
+			pPrev = nullptr;
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
@@ -54,9 +188,28 @@ private:
 
 void main() {
 	setlocale(LC_ALL, "");
+	int n;
+	int i;
+	cout << "Input list size: "; cin >> n;
+	cout << "Вставить по индексу: "; cin >> i;
 	List list;
-	list.push_front(5);
-	list.push_front(3);
-	list.push_front(4);
+	List list1;
+	for (; n > 0; n--) {
+		list.push_front(n);
+		list1.push_back(n);
+	}
+	list1= std::move (list);
+	list1.print();
+//	list.print();
+//	list.erase(i);
+//	list.insert(58, i);
+//	list.print();
+	/*list.push_back(5);
+	list.print();
+	list.pop_back();
+	list.print();
+	list.pop_front();
+	list.print();*/
+	list.printRevers();
 
 }
