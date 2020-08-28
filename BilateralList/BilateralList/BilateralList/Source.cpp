@@ -87,7 +87,7 @@ public:
 	}
 	// удаление элемента по индексу
 	bool erase(int index) {
-		if (index > (size - 1) || index < 0) return false;
+		if (index > (size - 1) || index < 0) return false;			// индекс за пределами списка
 		else if (index == 0) {										// если удаление первого элемента
 			pop_front(); return true;								// то вызовем метод
 		}
@@ -118,29 +118,98 @@ public:
 	}
 
 	//CopyMethods;
-	//MoveMethods;
-	List& operator= (List&& Head) {
-		for (Element* temp = this->Head;temp;) {						// проверим на необходимость очистки листа
-			Element* to_del = temp;										// удалим элемент
-			temp = temp->pNext;											// перейдем к следующему
-			delete to_del;
+	void operator =(const List& Head) {
+		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
+			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
+			this->size = 1;														// отметим колличество элементов
+			for (Element* temp = Head.Head->pNext; temp;temp = temp->pNext) {	// запишим остальные данные списка
+				Tail = Tail->pNext = new Element(temp->Data, nullptr, Tail);
+				size++;
+			}
 		}
-		// не удаляет последний элемент
-		//for (Element* temp = this->Head->pNext;temp;temp = temp->pNext) {						// проверим на необходимость очистки листа
-		//	
-		//	delete temp->pPrev;
-		//}
-		this->Head = this->Tail = nullptr;	
-		this->Head = this->Tail = new Element(Head.Head->Data);
-		this->size = 1;
-		for (Element* temp = Head.Head->pNext; temp;temp = temp->pNext) {
-			Tail = Tail->pNext = new Element(temp->Data, nullptr, Tail);
-			size++;
+		else if (this->size >= Head.size) {										// если переданные список меньше или равен приемному
+			int sizeTemp = 0;
+			Element* TempThis = this->Head;										// возьмем адрес приемного списка
+			Element* Temp = Head.Head;											// возьмем адрес передаваемогосписка
+			for (int i = 0; i < Head.size; i++) {								// выполняем пока не перезапишим приемный список
+				TempThis->Data = Temp->Data;									// данными переданного списка
+				TempThis = TempThis->pNext;										// переход к следующему элементу приемного списка
+				Temp = Temp->pNext;												// переход к следующему элементу передающего списка
+				sizeTemp++;
+			}
+			while (sizeTemp != this->size) {									// удаляем лишние элементы
+				pop_back();														// через метод
+			}
+		}
+		else {																	// иначе приемный список меньше
+			Element* TempThis = this->Head;										// возьмем адрес приемного списка
+			Element* Temp = Head.Head;											// возьмем адрес передаваемогосписка
+			for (int i = 0; i < size; i++) {									// выполняем пока не перезапишим приемный список
+				TempThis->Data = Temp->Data;									// данными переданного списка
+				TempThis = TempThis->pNext;										// переход к следующему элементу приемного списка
+				Temp = Temp->pNext;												// переход к следующему элементу передающего списка
+			}
+			for (; Temp; Temp = Temp->pNext) {									// добавление элементов
+				push_back(Temp->Data);											// через метод
+			}
+		}
+		cout << "AssignConstructor:\t" << this << endl;
+		return;
+	}
+	//MoveMethods;
+	List& operator =(List&& Head) {
+		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
+			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
+			this->size = 1;														// отметим колличество элементов
+			for (Element* temp = Head.Head->pNext; temp;temp = temp->pNext) {	// запишим остальные данные списка
+				Tail = Tail->pNext = new Element(temp->Data, nullptr, Tail);
+				size++;
+			}
+		}
+		else if (this->size >= Head.size) {										// если переданные список меньше или равен приемному
+			int sizeTemp = 0;
+			Element* TempThis = this->Head;										// возьмем адрес приемного списка
+			Element* Temp = Head.Head;											// возьмем адрес передаваемогосписка
+			for (int i = 0; i < Head.size; i++) {								// выполняем пока не перезапишим приемный список
+				TempThis->Data = Temp->Data;									// данными переданного списка
+				TempThis = TempThis->pNext;										// переход к следующему элементу приемного списка
+				Temp = Temp->pNext;												// переход к следующему элементу передающего списка
+				sizeTemp++;
+			}
+			while (sizeTemp != this->size) {									// удаляем лишние элементы
+				pop_back();														// через метод
+			}
+		} 
+		else {																	// иначе приемный список меньше
+			Element* TempThis = this->Head;										// возьмем адрес приемного списка
+			Element* Temp = Head.Head;											// возьмем адрес передаваемогосписка
+			for (int i = 0; i < size; i++) {									// выполняем пока не перезапишим приемный список
+				TempThis->Data = Temp->Data;									// данными переданного списка
+				TempThis = TempThis->pNext;										// переход к следующему элементу приемного списка
+				Temp = Temp->pNext;												// переход к следующему элементу передающего списка
+			}
+			for (; Temp; Temp = Temp->pNext) {									// добавление элементов
+				push_back(Temp->Data);											// через метод
+			}
 		}
 		cout << "MoveAssignment\t\t" << this << endl;
 		return *this;
 	}
 	//operator+;
+	List operator +(const List& Head) const {
+		List list;
+		Element* TempThis = this->Head;
+		Element* Temp = Head.Head;
+		for (int i = 0; i < this->size; i++) {
+			list.push_back(TempThis->Data);
+			TempThis = TempThis->pNext;
+		}
+		for (int i = 0; i < this->size; i++) {
+			list.push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		return list;
+	}
 	//operator+=;
 
 	// вывод элементов в консоль прямой ход
@@ -154,8 +223,7 @@ public:
 	// вывод элементов в консоль обратный ход
 	void printRevers() {
 		cout << endl;
-		for (Element* Temp = Tail; Temp; 
-			Temp = Temp->pPrev)
+		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 			cout << Temp->pNext << tab << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
 		
 		cout << endl << tab << "Элементов в list: " << this->size << endl;
@@ -196,10 +264,16 @@ void main() {
 	List list1;
 	for (; n > 0; n--) {
 		list.push_front(n);
-		list1.push_back(n);
+	//	list1.push_back(n);
 	}
-	list1= std::move (list);
+	list.push_back(32);
+	list.push_back(54);
+	list.push_back(43);
+	list.print();
 	list1.print();
+	list1 = list + list;
+//	list1= std::move (list);
+	list.print();
 //	list.print();
 //	list.erase(i);
 //	list.insert(58, i);
