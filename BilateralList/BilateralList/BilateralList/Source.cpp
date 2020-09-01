@@ -196,7 +196,7 @@ public:
 		return *this;
 	}
 	//operator+;
-	List operator +(const List& Head) const {
+	/*List operator +(const List& Head) const{
 		List list;
 		Element* TempThis = this->Head;
 		Element* Temp = Head.Head;
@@ -209,8 +209,13 @@ public:
 			Temp = Temp->pNext;
 		}
 		return list;
-	}
+	}*/
 	//operator+=;
+	void operator +=(const List& Head) {
+		for (Element* temp = Head.Head; temp; temp = temp->pNext) {
+			push_back(temp->Data);
+		}
+	}
 
 	// вывод элементов в консоль прямой ход
 	void print() {
@@ -264,16 +269,17 @@ void main() {
 	List list1;
 	for (; n > 0; n--) {
 		list.push_front(n);
-	//	list1.push_back(n);
+		list1.push_back(n);
 	}
 	list.push_back(32);
 	list.push_back(54);
 	list.push_back(43);
 	list.print();
+//	list1 = list1 + list1;
 	list1.print();
-	list1 = list + list;
+	list1 += list;
 //	list1= std::move (list);
-	list.print();
+	list1.print();
 //	list.print();
 //	list.erase(i);
 //	list.insert(58, i);
