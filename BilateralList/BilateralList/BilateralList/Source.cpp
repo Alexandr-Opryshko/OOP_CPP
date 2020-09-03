@@ -320,8 +320,8 @@ void main() {
 	setlocale(LC_ALL, "");
 	int n;
 	int i;
-	cout << "Input list size: "; cin >> n;
-	cout << "Вставить по индексу: "; cin >> i;
+	/*cout << "Input list size: "; cin >> n;
+	cout << "Вставить по индексу: "; cin >> i;*/
 	List list = { 5,2,3,4,6 };
 	list = list + list;
 	list.print();
