@@ -280,6 +280,11 @@ void main() {
 	List list = { 5,2,3,4,6 };
 	list.print();
 	list.printRevers();
+
+	//for (int i : list) {
+	//	cout << i << "\t";
+	//}
+
 	//List list1;
 	//for (; n > 0; n--) {
 	//	list.push_front(n);
