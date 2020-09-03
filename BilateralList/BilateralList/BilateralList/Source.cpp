@@ -170,6 +170,7 @@ public:
 	}
 	//MoveMethods;
 	List& operator =(List&& Head) {
+		if (this->Head == Head.Head)return *this;
 		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
 			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
 			this->size = 1;														// отметим колличество элементов
