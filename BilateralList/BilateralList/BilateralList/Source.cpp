@@ -3,7 +3,73 @@ using namespace std;
 #define tab	"\t"
 
 class List {
+private:
+	class Element {
+
+	public:
+		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev) {
+			cout << "EConstructor:\t" << this << endl;
+		}
+		~Element() {
+			Data = 0;
+			pNext = nullptr;
+			pPrev = nullptr;
+			cout << "EDestructor:\t" << this << endl;
+		}
+		friend class List;
+	private:
+		int Data;
+		Element* pNext;
+		Element* pPrev;
+	};
+
+	class Iterator {
+	public:
+		Iterator(Element* Temp = nullptr) {
+			this->Temp = Temp;
+			cout << "ItConstructor:\t" << this << endl;
+		}
+		~Iterator() {
+			cout << "ItDestructor:\t" << this << endl;
+		}
+		Iterator& operator++() {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		Iterator& operator++(int) {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		bool operator!=(const Iterator& other) const {
+			return this->Temp != other.Temp;
+		}
+		bool operator!=(Element* other_el) const {
+			return this->Temp != other_el;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+		// замена Temp != nulptr на Temp
+		operator bool()const {
+			return Temp;
+		}
+		friend class Element;
+		friend class List;
+	private:
+		Element* Temp;
+	};
+
+	Element* Head;
+	Element* Tail;
+	int size;
 public:
+	Iterator begin() {
+		return Head;
+	}
+	Iterator end() {
+		return nullptr;
+	}
+
 	List() {
 		Head = Tail = nullptr;
 		size = 0;
@@ -209,7 +275,7 @@ public:
 		return *this;
 	}
 	//operator+;
-	/*List operator +(const List& Head) const{
+	List operator +(const List& Head) const{
 		List list;
 		Element* TempThis = this->Head;
 		Element* Temp = Head.Head;
@@ -222,7 +288,7 @@ public:
 			Temp = Temp->pNext;
 		}
 		return list;
-	}*/
+	}
 	//operator+=;
 	void operator +=(const List& Head) {
 		for (Element* temp = Head.Head; temp; temp = temp->pNext) {
@@ -246,28 +312,7 @@ public:
 		cout << endl << tab << "Элементов в list: " << this->size << endl;
 	}
 	//_____________________________________________________________________
-private:
-	class Element {
 
-	public:
-		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev) {
-			cout << "EConstructor:\t" << this << endl;
-		}
-		~Element() {
-			Data = 0;
-			pNext = nullptr;
-			pPrev = nullptr;
-			cout << "EDestructor:\t" << this << endl;
-		}
-		friend class List;
-	private:
-		int Data;
-		Element* pNext;
-		Element* pPrev;
-	};
-	Element* Head;
-	Element* Tail;
-	int size;
 };
 
 
@@ -278,12 +323,13 @@ void main() {
 	cout << "Input list size: "; cin >> n;
 	cout << "Вставить по индексу: "; cin >> i;
 	List list = { 5,2,3,4,6 };
+	list = list + list;
 	list.print();
 	list.printRevers();
 
-	//for (int i : list) {
-	//	cout << i << "\t";
-	//}
+	for (int i : list) {
+		cout << i << "\t";
+	}
 
 	//List list1;
 	//for (; n > 0; n--) {
