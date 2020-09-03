@@ -9,6 +9,18 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	// конструктор копировани€
+	List(const List& other) :List() {
+		for (Element* Temp = other.Head;Temp;Temp = Temp->pNext)
+			push_back(Temp->Data);
+	}
+	// конструктор с переменным колличеством параметров
+	List(const std::initializer_list<int>& il) {
+		for (const int* it = il.begin(); it != il.end(); it++) {
+			push_back(*it);
+		}
+		cout << "ConstructorVariableParameters:\t" << this << endl;
+	}
 	~List() {
 		while (Head != nullptr) pop_front();
 		size = 0;
@@ -116,9 +128,9 @@ public:
 		size--;														// уменьшим список на 1 элемент
 		return true;
 	}
-
 	//CopyMethods;
-	void operator =(const List& Head) {
+	List& operator =(const List& Head) {
+		if (this->Head == Head.Head)return *this;
 		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
 			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
 			this->size = 1;														// отметим колличество элементов
@@ -154,7 +166,7 @@ public:
 			}
 		}
 		cout << "AssignConstructor:\t" << this << endl;
-		return;
+		return *this;
 	}
 	//MoveMethods;
 	List& operator =(List&& Head) {
@@ -216,7 +228,6 @@ public:
 			push_back(temp->Data);
 		}
 	}
-
 	// вывод элементов в консоль пр€мой ход
 	void print() {
 		cout << endl;
@@ -265,21 +276,25 @@ void main() {
 	int i;
 	cout << "Input list size: "; cin >> n;
 	cout << "¬ставить по индексу: "; cin >> i;
-	List list;
-	List list1;
-	for (; n > 0; n--) {
-		list.push_front(n);
-		list1.push_back(n);
-	}
-	list.push_back(32);
-	list.push_back(54);
-	list.push_back(43);
+	List list = { 5,2,3,4,6 };
 	list.print();
+	list.printRevers();
+	//List list1;
+	//for (; n > 0; n--) {
+	//	list.push_front(n);
+	//	list1.push_back(n);
+	//}
+	/*list.push_back(32);
+	list.push_back(54);
+	list.push_back(43);*/
+	//list.print();
+	//list1.print();
+	//list = list;
 //	list1 = list1 + list1;
-	list1.print();
-	list1 += list;
+//	list.print();
+//	list1 += list;
 //	list1= std::move (list);
-	list1.print();
+//	list1.print();
 //	list.print();
 //	list.erase(i);
 //	list.insert(58, i);
@@ -290,6 +305,6 @@ void main() {
 	list.print();
 	list.pop_front();
 	list.print();*/
-	list.printRevers();
+//	list.printRevers();
 
 }
