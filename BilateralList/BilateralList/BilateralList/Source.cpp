@@ -81,7 +81,7 @@ public:
 			push_back(Temp->Data);
 	}
 	// конструктор с переменным колличеством параметров
-	List(const std::initializer_list<int>& il) {
+	List(const std::initializer_list<int>& il) : List(){
 		for (const int* it = il.begin(); it != il.end(); it++) {
 			push_back(*it);
 		}
