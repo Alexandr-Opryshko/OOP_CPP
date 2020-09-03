@@ -36,8 +36,16 @@ private:
 			Temp = Temp->pNext;
 			return *this;
 		}
+		Iterator& operator--() {
+			Temp = Temp->pPrev;
+			return *this;
+		}
 		Iterator& operator++(int) {
 			Temp = Temp->pNext;
+			return *this;
+		}
+		Iterator& operator--(int) {
+			Temp = Temp->pPrev;
 			return *this;
 		}
 		bool operator!=(const Iterator& other) const {
@@ -45,6 +53,9 @@ private:
 		}
 		bool operator!=(Element* other_el) const {
 			return this->Temp != other_el;
+		}
+		const int& operator*() const{
+			return Temp->Data;
 		}
 		int& operator*() {
 			return Temp->Data;
@@ -63,13 +74,13 @@ private:
 	Element* Tail;
 	int size;
 public:
-	Iterator begin() {
+	const Iterator begin() const {
 		return Head;
 	}
-	Iterator end() {
+	const Iterator end() const{
 		return nullptr;
 	}
-
+	// конструктор
 	List() {
 		Head = Tail = nullptr;
 		size = 0;
@@ -298,9 +309,11 @@ public:
 	// вывод элементов в консоль пр€мой ход
 	void print() {
 		cout << endl;
-		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
-			cout << Temp->pPrev << tab <<  Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-			
+		//for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+			//cout << Temp->pPrev << tab <<  Temp << tab << Temp->Data << tab << Temp->pNext << endl;
+		for(Iterator it = Head; it; it++)
+			cout << *it  << endl;
+
 		cout << endl << tab << "Ёлементов в list: " << this->size << endl;
 	}
 	// вывод элементов в консоль обратный ход
@@ -311,8 +324,6 @@ public:
 		
 		cout << endl << tab << "Ёлементов в list: " << this->size << endl;
 	}
-	//_____________________________________________________________________
-
 };
 
 
@@ -326,11 +337,10 @@ void main() {
 	list = list + list;
 	list.print();
 	list.printRevers();
-
+	
 	for (int i : list) {
-		cout << i << "\t";
+		cout << i << endl;
 	}
-
 	//List list1;
 	//for (; n > 0; n--) {
 	//	list.push_front(n);
