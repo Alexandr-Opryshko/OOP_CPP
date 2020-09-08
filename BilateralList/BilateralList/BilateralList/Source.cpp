@@ -17,59 +17,21 @@ private:
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
+		friend class Iterator;
+		friend class ReversIterator;
 	private:
 		int Data;
 		Element* pNext;
 		Element* pPrev;
 	};
-
-	class ReversIterator {
-	public:
-		ReversIterator(Element* Temp = nullptr) {
-			this->Temp = Temp;
-			cout << "ReversItConstructor:\t" << this << endl;
-		}
-		~ReversIterator() {
-			cout << "ReversItDestructor:\t" << this << endl;
-		}
-		ReversIterator& operator++() {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--() {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		ReversIterator& operator++(int) {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--(int) {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		bool operator!=(const ReversIterator& other) const {
-			return this->Temp != other.Temp;
-		}
-		bool operator!=(Element* other_el) const {
-			return this->Temp != other_el;
-		}
-		const int& operator*() const {
-			return Temp->Data;
-		}
-		int& operator*() {
-			return Temp->Data;
-		}
-		operator bool()const {
-			return Temp;
-		}
-
-		friend class Element;
-		friend class List;
+	Element* Head;
+	Element* Tail;
+	int size;
+public:
+	
+	class Iterator {
 	private:
 		Element* Temp;
-	};
-	class Iterator {
 	public:
 		Iterator(Element* Temp = nullptr) {
 			this->Temp = Temp;
@@ -110,26 +72,62 @@ private:
 		operator bool()const {
 			return Temp;
 		}
-		friend class Element;
-		friend class List;
+			
+	};
+	class ReversIterator {
 	private:
 		Element* Temp;
+	public:
+		ReversIterator(Element* Temp = nullptr) {
+			this->Temp = Temp;
+			cout << "ReversItConstructor:\t" << this << endl;
+		}
+		~ReversIterator() {
+			cout << "ReversItDestructor:\t" << this << endl;
+		}
+		ReversIterator& operator++() {
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReversIterator& operator--() {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		ReversIterator& operator++(int) {
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReversIterator& operator--(int) {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		bool operator!=(const ReversIterator& other) const {
+			return this->Temp != other.Temp;
+		}
+		bool operator!=(Element* other_el) const {
+			return this->Temp != other_el;
+		}
+		const int& operator*() const {
+			return Temp->Data;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+		operator bool()const {
+			return Temp;
+		}
 	};
 
-	Element* Head;
-	Element* Tail;
-	int size;
-public:
 	const Iterator begin() const {
 		return Head;
 	}
 	const Iterator end() const{
 		return nullptr;
 	}
-	const ReversIterator ReversBegin() const {
+	const ReversIterator rbegin() const {
 		return Tail;
 	}
-	const Iterator ReversEnd() const {
+	const ReversIterator rend() const {
 		return nullptr;
 	}
 	// конструктор
@@ -396,6 +394,16 @@ void main() {
 	for (int i : list) {
 		cout << i << endl;
 	}
+	//for (List::Iterator it = list.begin(); it != list.end(); it++) 
+	for(List::ReversIterator rit = list.rbegin(); rit != list.rend();rit++){
+		cout << *rit << endl;
+	}
+	int a = 5;		
+	int& pa = a;	// ссылка
+	int* ua = &a;	// указатель
+	cout << " Значение " << a << " адресс " << &a 
+		<< " Значение " << pa << " адресс " << &pa 
+		<< " значение " << *ua << " адресс" << ua << endl;
 	//List list1;
 	//for (; n > 0; n--) {
 	//	list.push_front(n);
