@@ -237,7 +237,7 @@ void List::pop_front() {
 			Head = Tail = nullptr;									// и очистим указатели
 		}
 		else {														// иначе больше чем один элемент в списке
-			this->Head = Head->pNext;										// исключаем элемент из списка
+			this->Head = Head->pNext;								// исключаем элемент из списка
 			delete Head->pPrev;										// удаляем элемент из памяти
 			Head->pPrev = nullptr;									// и очищаем указатель на удаленный элемент
 		}
