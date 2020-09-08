@@ -23,6 +23,52 @@ private:
 		Element* pPrev;
 	};
 
+	class ReversIterator {
+	public:
+		ReversIterator(Element* Temp = nullptr) {
+			this->Temp = Temp;
+			cout << "ReversItConstructor:\t" << this << endl;
+		}
+		~ReversIterator() {
+			cout << "ReversItDestructor:\t" << this << endl;
+		}
+		ReversIterator& operator++() {
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReversIterator& operator--() {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		ReversIterator& operator++(int) {
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReversIterator& operator--(int) {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		bool operator!=(const ReversIterator& other) const {
+			return this->Temp != other.Temp;
+		}
+		bool operator!=(Element* other_el) const {
+			return this->Temp != other_el;
+		}
+		const int& operator*() const {
+			return Temp->Data;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+		operator bool()const {
+			return Temp;
+		}
+
+		friend class Element;
+		friend class List;
+	private:
+		Element* Temp;
+	};
 	class Iterator {
 	public:
 		Iterator(Element* Temp = nullptr) {
@@ -78,6 +124,12 @@ public:
 		return Head;
 	}
 	const Iterator end() const{
+		return nullptr;
+	}
+	const ReversIterator ReversBegin() const {
+		return Tail;
+	}
+	const Iterator ReversEnd() const {
 		return nullptr;
 	}
 	// конструктор
@@ -319,9 +371,12 @@ public:
 	// вывод элементов в консоль обратный ход
 	void printRevers() {
 		cout << endl;
-		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
+		/*for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 			cout << Temp->pNext << tab << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
-		
+		*/
+		for (ReversIterator it = Tail; it; it++)
+			cout << *it << endl;
+
 		cout << endl << tab << "Ёлементов в list: " << this->size << endl;
 	}
 };
