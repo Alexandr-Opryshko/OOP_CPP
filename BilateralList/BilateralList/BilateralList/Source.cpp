@@ -2,6 +2,7 @@
 using namespace std;
 #define tab	"\t"
 
+//################################################## Class
 class List {
 private:
 	class Element {
@@ -33,122 +34,188 @@ public:
 	private:
 		Element* Temp;
 	public:
-		Iterator(Element* Temp = nullptr) {
-			this->Temp = Temp;
-			cout << "ItConstructor:\t" << this << endl;
-		}
-		~Iterator() {
-			cout << "ItDestructor:\t" << this << endl;
-		}
-		Iterator& operator++() {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		Iterator& operator--() {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		Iterator& operator++(int) {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		Iterator& operator--(int) {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		bool operator!=(const Iterator& other) const {
-			return this->Temp != other.Temp;
-		}
-		bool operator!=(Element* other_el) const {
-			return this->Temp != other_el;
-		}
-		const int& operator*() const{
-			return Temp->Data;
-		}
-		int& operator*() {
-			return Temp->Data;
-		}
+		Iterator(Element* Temp = nullptr);
+		~Iterator();
+		Iterator& operator++();
+		Iterator& operator--();
+		Iterator& operator++(int);
+		Iterator& operator--(int);
+		bool operator!=(const Iterator& other) const;
+		bool operator!=(Element* other_el) const;
+		const int& operator*() const;
+		int& operator*();
 		// замена Temp != nulptr на Temp
-		operator bool()const {
-			return Temp;
-		}
+		operator bool()const;
 			
 	};
 	class ReversIterator {
 	private:
 		Element* Temp;
 	public:
-		ReversIterator(Element* Temp = nullptr) {
-			this->Temp = Temp;
-			cout << "ReversItConstructor:\t" << this << endl;
-		}
-		~ReversIterator() {
-			cout << "ReversItDestructor:\t" << this << endl;
-		}
-		ReversIterator& operator++() {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--() {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		ReversIterator& operator++(int) {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--(int) {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		bool operator!=(const ReversIterator& other) const {
-			return this->Temp != other.Temp;
-		}
-		bool operator!=(Element* other_el) const {
-			return this->Temp != other_el;
-		}
-		const int& operator*() const {
-			return Temp->Data;
-		}
-		int& operator*() {
-			return Temp->Data;
-		}
-		operator bool()const {
-			return Temp;
-		}
+		ReversIterator(Element* Temp = nullptr);
+		~ReversIterator();
+		ReversIterator& operator++();
+		ReversIterator& operator--();
+		ReversIterator& operator++(int);
+		ReversIterator& operator--(int);
+		bool operator!=(const ReversIterator& other) const;
+		bool operator!=(Element* other_el) const;
+		const int& operator*() const;
+		int& operator*();
+		operator bool()const;
 	};
 
-	const Iterator begin() const {
-		return Head;
-	}
-	const Iterator end() const{
-		return nullptr;
-	}
-	const ReversIterator rbegin() const {
-		return Tail;
-	}
-	const ReversIterator rend() const {
-		return nullptr;
-	}
+	const Iterator begin() const;
+	const Iterator end() const;
+	const ReversIterator rbegin() const;
+	const ReversIterator rend() const;
 	// конструктор
-	List() {
+	List();
+	// конструктор копирования
+	List(const List& other);
+	// конструктор с переменным колличеством параметров
+	List(const std::initializer_list<int>& il);
+	~List();
+	//---------------------------------------------------------------------
+	// Method
+	// добавить в начало списка
+	void push_front(int Data);
+	// удаление первого элемента
+	void pop_front();
+	// добавить в конец списка
+	void push_back(int Data);
+	// удаление последнего элемента
+	void pop_back();
+	// вставить значение по индексу
+	bool insert(int data, int index);
+	// удаление элемента по индексу
+	bool erase(int index);
+	//CopyMethods;
+	List& operator =(const List& Head);
+	//MoveMethods;
+	List& operator =(List&& Head);
+	//operator+;
+	List operator +(const List& Head) const;
+	//operator+=;
+	void operator +=(const List& Head);
+	// вывод элементов в консоль прямой ход
+	void print();
+	// вывод элементов в консоль обратный ход
+	void printRevers();
+};
+//################################################## реализация Iterator
+List::Iterator::Iterator(Element* Temp): Temp(Temp) {
+	this->Temp = Temp;
+	cout << "ItConstructor:\t" << this << endl;
+}
+List::Iterator::~Iterator() {
+	cout << "ItDestructor:\t" << this << endl;
+}
+List::Iterator& List::Iterator::operator++() {
+	Temp = Temp->pNext;
+	return *this;
+}
+List::Iterator& List::Iterator::operator--() {
+	Temp = Temp->pPrev;
+	return *this;
+}
+List::Iterator& List::Iterator::operator++(int) {
+	Temp = Temp->pNext;
+	return *this;
+}
+List::Iterator& List::Iterator::operator--(int) {
+	Temp = Temp->pPrev;
+	return *this;
+}
+bool List::Iterator::operator!=(const Iterator& other) const {
+	return this->Temp != other.Temp;
+}
+bool List::Iterator::operator!=(Element* other_el) const {
+	return this->Temp != other_el;
+}
+const int& List::Iterator::operator*() const {
+	return Temp->Data;
+}
+int& List::Iterator::operator*() {
+	return Temp->Data;
+}
+// замена Temp != nulptr на Temp
+List::Iterator::operator bool()const {
+	return Temp;
+}
+
+//################################################## реализация ReversIterator
+List::ReversIterator::ReversIterator(Element* Temp):Temp(Temp) {
+	this->Temp = Temp;
+	cout << "ReversItConstructor:\t" << this << endl;
+}
+List::ReversIterator ::~ReversIterator() {
+	cout << "ReversItDestructor:\t" << this << endl;
+}
+List::ReversIterator& List::ReversIterator::operator++() {
+	Temp = Temp->pPrev;
+	return *this;
+}
+List::ReversIterator& List::ReversIterator::operator--() {
+	Temp = Temp->pNext;
+	return *this;
+}
+List::ReversIterator& List::ReversIterator::operator++(int) {
+	Temp = Temp->pPrev;
+	return *this;
+}
+List::ReversIterator& List::ReversIterator::operator--(int) {
+	Temp = Temp->pNext;
+	return *this;
+}
+bool List::ReversIterator::operator!=(const ReversIterator& other) const {
+	return this->Temp != other.Temp;
+}
+bool List::ReversIterator::operator!=(Element* other_el) const {
+	return this->Temp != other_el;
+}
+const int& List::ReversIterator::operator*() const {
+	return Temp->Data;
+}
+int& List::ReversIterator::operator*() {
+	return Temp->Data;
+}
+List::ReversIterator::operator bool()const {
+	return Temp;
+}
+
+//################################################## реализация LIST
+const List::Iterator List::begin() const {
+	return Head;
+}
+const List::Iterator List::end() const {
+	return nullptr;
+}
+const List::ReversIterator List::rbegin() const {
+	return Tail;
+}
+const List::ReversIterator List::rend() const {
+	return nullptr;
+}
+	// конструктор
+List::List() {
 		Head = Tail = nullptr;
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
 	// конструктор копирования
-	List(const List& other) :List() {
+List::List(const List& other) :List() {
 		for (Element* Temp = other.Head;Temp;Temp = Temp->pNext)
 			push_back(Temp->Data);
 	}
 	// конструктор с переменным колличеством параметров
-	List(const std::initializer_list<int>& il) : List(){
+List::List(const std::initializer_list<int>& il) : List() {
 		for (const int* it = il.begin(); it != il.end(); it++) {
 			push_back(*it);
 		}
 		cout << "ConstructorVariableParameters:\t" << this << endl;
 	}
-	~List() {
+List::~List() {
 		while (Head != nullptr) pop_front();
 		size = 0;
 		cout << "LDestructor:\t" << this << endl;
@@ -156,35 +223,35 @@ public:
 	//---------------------------------------------------------------------
 	// Method
 	// добавить в начало списка
-	void push_front(int Data) {
+void List::push_front(int Data) {
 		if (Head == nullptr && Tail == nullptr)						// если список пустой
 			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
 		else Head = Head->pPrev = new Element(Data, Head);			// иначе указателю первого элемента  и голове присвоим адрес нового элемента
 		size++;														// увеличим список на 1 элемент
 	}
 	// удаление первого элемента
-	void pop_front() {
+void List::pop_front() {
 		if (Head == nullptr && Tail == nullptr) return;				// проверка наличия элементов в списке
 		else if (size == 1) {										// если остался последний элемент
 			delete Tail;											// удалим элемент
 			Head = Tail = nullptr;									// и очистим указатели
 		}
 		else {														// иначе больше чем один элемент в списке
-			Head = Head->pNext;										// исключаем элемент из списка
+			this->Head = Head->pNext;										// исключаем элемент из списка
 			delete Head->pPrev;										// удаляем элемент из памяти
 			Head->pPrev = nullptr;									// и очищаем указатель на удаленный элемент
 		}
 		size--;														// уменьшим список на 1 элемент
 	}
 	// добавить в конец списка
-	void push_back(int Data) {
+void List::push_back(int Data) {
 		if (Head == nullptr && Tail == nullptr)						// если список пустой
 			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
 		else Tail = Tail->pNext = new Element(Data, nullptr, Tail);	// иначе указателю последнего элемента  и хвосту присвоим адрес нового элемента
 		size++;														// увеличим список на 1 элемент
 	}
 	// удаление последнего элемента
-	void pop_back() {
+void List::pop_back() {
 		if (Head == nullptr && Tail == nullptr) return;				// если список пустой
 		else if (size == 1) {										// если остался последний элемент
 			delete Tail;											// удалим элемент
@@ -198,7 +265,7 @@ public:
 		size--;														// уменьшим колличество элементов в списке на один
 	}
 	// вставить значение по индексу
-	bool insert(int data, int index) {
+bool List::insert(int data, int index) {
 		if (index > (size) || index < 0) return false;
 		else if (index == 0) {										// если вставка на место первого элемента
 			push_front(data); return true;							// то вызовем метод
@@ -225,7 +292,7 @@ public:
 		return true;
 	}
 	// удаление элемента по индексу
-	bool erase(int index) {
+bool List::erase(int index) {
 		if (index > (size - 1) || index < 0) return false;			// индекс за пределами списка
 		else if (index == 0) {										// если удаление первого элемента
 			pop_front(); return true;								// то вызовем метод
@@ -256,7 +323,7 @@ public:
 		return true;
 	}
 	//CopyMethods;
-	List& operator =(const List& Head) {
+List& List::operator =(const List& Head) {
 		if (this->Head == Head.Head)return *this;
 		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
 			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
@@ -296,7 +363,7 @@ public:
 		return *this;
 	}
 	//MoveMethods;
-	List& operator =(List&& Head) {
+List& List::operator =(List&& Head) {
 		if (this->Head == Head.Head)return *this;
 		if (this->Head == nullptr && this->Tail == nullptr) {					// если список пуст
 			this->Head = this->Tail = new Element(Head.Head->Data);				// запишим первый элемент
@@ -319,7 +386,7 @@ public:
 			while (sizeTemp != this->size) {									// удаляем лишние элементы
 				pop_back();														// через метод
 			}
-		} 
+		}
 		else {																	// иначе приемный список меньше
 			Element* TempThis = this->Head;										// возьмем адрес приемного списка
 			Element* Temp = Head.Head;											// возьмем адрес передаваемогосписка
@@ -336,7 +403,7 @@ public:
 		return *this;
 	}
 	//operator+;
-	List operator +(const List& Head) const{
+List List::operator +(const List& Head) const {
 		List list;
 		Element* TempThis = this->Head;
 		Element* Temp = Head.Head;
@@ -351,23 +418,23 @@ public:
 		return list;
 	}
 	//operator+=;
-	void operator +=(const List& Head) {
+void List::operator +=(const List& Head) {
 		for (Element* temp = Head.Head; temp; temp = temp->pNext) {
 			push_back(temp->Data);
 		}
 	}
 	// вывод элементов в консоль прямой ход
-	void print() {
+void List::print() {
 		cout << endl;
 		//for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 			//cout << Temp->pPrev << tab <<  Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-		for(Iterator it = Head; it; it++)
-			cout << *it  << endl;
+		for (Iterator it = Head; it; it++)
+			cout << *it << endl;
 
 		cout << endl << tab << "Элементов в list: " << this->size << endl;
 	}
 	// вывод элементов в консоль обратный ход
-	void printRevers() {
+void List::printRevers() {
 		cout << endl;
 		/*for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 			cout << Temp->pNext << tab << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
@@ -377,13 +444,14 @@ public:
 
 		cout << endl << tab << "Элементов в list: " << this->size << endl;
 	}
-};
+
+//################################################## 
 
 
 void main() {
 	setlocale(LC_ALL, "");
-	int n;
-	int i;
+	//int n;
+	//int i;
 	/*cout << "Input list size: "; cin >> n;
 	cout << "Вставить по индексу: "; cin >> i;*/
 	List list = { 5,2,3,4,6 };
