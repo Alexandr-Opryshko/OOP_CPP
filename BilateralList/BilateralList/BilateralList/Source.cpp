@@ -2,25 +2,26 @@
 using namespace std;
 #define tab	"\t"
 
+template<typename T>
 class List {
 private:
 	class Element {
 
 	public:
-		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev) {
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev) {
 			cout << "EConstructor:\t" << this << endl;
 		}
 		~Element() {
-			Data = 0;
-			pNext = nullptr;
-			pPrev = nullptr;
+//			Data = 0;
+			//pNext = nullptr;
+			//pPrev = nullptr;
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
 		friend class Iterator;
 		friend class ReversIterator;
 	private:
-		int Data;
+		T Data;
 		Element* pNext;
 		Element* pPrev;
 	};
@@ -62,10 +63,10 @@ public:
 		bool operator!=(Element* other_el) const {
 			return this->Temp != other_el;
 		}
-		const int& operator*() const{
+		const T& operator*() const{
 			return Temp->Data;
 		}
-		int& operator*() {
+		T& operator*() {
 			return Temp->Data;
 		}
 		// замена Temp != nulptr на Temp
@@ -107,10 +108,10 @@ public:
 		bool operator!=(Element* other_el) const {
 			return this->Temp != other_el;
 		}
-		const int& operator*() const {
+		const T& operator*() const {
 			return Temp->Data;
 		}
-		int& operator*() {
+		T& operator*() {
 			return Temp->Data;
 		}
 		operator bool()const {
@@ -142,8 +143,8 @@ public:
 			push_back(Temp->Data);
 	}
 	// конструктор с переменным колличеством параметров
-	List(const std::initializer_list<int>& il) : List(){
-		for (const int* it = il.begin(); it != il.end(); it++) {
+	List(const std::initializer_list<T>& il) : List(){
+		for (const T* it = il.begin(); it != il.end(); it++) {
 			push_back(*it);
 		}
 		cout << "ConstructorVariableParameters:\t" << this << endl;
@@ -156,7 +157,7 @@ public:
 	//---------------------------------------------------------------------
 	// Method
 	// добавить в начало списка
-	void push_front(int Data) {
+	void push_front(T Data) {
 		if (Head == nullptr && Tail == nullptr)						// если список пустой
 			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
 		else Head = Head->pPrev = new Element(Data, Head);			// иначе указателю первого элемента  и голове присвоим адрес нового элемента
@@ -177,7 +178,7 @@ public:
 		size--;														// уменьшим список на 1 элемент
 	}
 	// добавить в конец списка
-	void push_back(int Data) {
+	void push_back(T Data) {
 		if (Head == nullptr && Tail == nullptr)						// если список пустой
 			Head = Tail = new Element(Data);						// то для начала и хвоста присвоим адрес элемента
 		else Tail = Tail->pNext = new Element(Data, nullptr, Tail);	// иначе указателю последнего элемента  и хвосту присвоим адрес нового элемента
@@ -198,7 +199,7 @@ public:
 		size--;														// уменьшим колличество элементов в списке на один
 	}
 	// вставить значение по индексу
-	bool insert(int data, int index) {
+	bool insert(T data, int index) {
 		if (index > (size) || index < 0) return false;
 		else if (index == 0) {										// если вставка на место первого элемента
 			push_front(data); return true;							// то вызовем метод
@@ -386,24 +387,37 @@ void main() {
 	int i;
 	/*cout << "Input list size: "; cin >> n;
 	cout << "Вставить по индексу: "; cin >> i;*/
-	List list = { 5,2,3,4,6 };
-	list = list + list;
-	list.print();
-	list.printRevers();
-	
-	for (int i : list) {
-		cout << i << endl;
+	List<int> list = { 5,2,3,4,6 };
+	List<double> list2 = { 5.1,2.4,3.5,4.7,6.4 };
+	List<string> list3 = { "хорошо", "живет","на","свете","винипух" };
+	for (string i : list3) {
+		cout << i << tab;
 	}
-	//for (List::Iterator it = list.begin(); it != list.end(); it++) 
-	for(List::ReversIterator rit = list.rbegin(); rit != list.rend();rit++){
-		cout << *rit << endl;
+	cout << endl;
+
+	for (List<string>::ReversIterator rit = list3.rbegin(); rit != list3.rend(); rit++) {
+		cout << *rit << tab;
 	}
-	int a = 5;		
-	int& pa = a;	// ссылка
-	int* ua = &a;	// указатель
-	cout << " Значение " << a << " адресс " << &a 
-		<< " Значение " << pa << " адресс " << &pa 
-		<< " значение " << *ua << " адресс" << ua << endl;
+	cout << endl;
+
+	//list2.print();
+	//list = list + list;
+	//list.print();
+	//list.printRevers();
+	//
+	//for (int i : list) {
+	//	cout << i << endl;
+	//}
+	////for (List::Iterator it = list.begin(); it != list.end(); it++) 
+	//for(List<int>::ReversIterator rit = list.rbegin(); rit != list.rend();rit++){
+	//	cout << *rit << endl;
+	//}
+	//int a = 5;		
+	//int& pa = a;	// ссылка
+	//int* ua = &a;	// указатель
+	//cout << " Значение " << a << " адресс " << &a 
+	//	<< " Значение " << pa << " адресс " << &pa 
+	//	<< " значение " << *ua << " адресс" << ua << endl;
 	//List list1;
 	//for (; n > 0; n--) {
 	//	list.push_front(n);
