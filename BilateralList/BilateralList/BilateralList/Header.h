@@ -9,15 +9,8 @@ private:
 	class Element {
 
 	public:
-		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev) {
-			cout << "EConstructor:\t" << this << endl;
-		}
-		~Element() {
-			//			Data = 0;
-						//pNext = nullptr;
-						//pPrev = nullptr;
-			cout << "EDestructor:\t" << this << endl;
-		}
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr);
+		~Element();
 		friend class List;
 		friend class Iterator;
 		friend class ReversIterator;
@@ -35,45 +28,18 @@ public:
 	private:
 		Element* Temp;
 	public:
-		Iterator(Element* Temp) {
-			this->Temp = Temp;
-			cout << "ItConstructor:\t" << this << endl;
-		}
-		~Iterator() {
-			cout << "ItDestructor:\t" << this << endl;
-		}
-		Iterator& operator++() {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		Iterator& operator--() {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		Iterator& operator++(int) {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		Iterator& operator--(int) {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		bool operator!=(const Iterator& other) const {
-			return this->Temp != other.Temp;
-		}
-		bool operator!=(Element* other_el) const {
-			return this->Temp != other_el;
-		}
-		const T& operator*() const {
-			return Temp->Data;
-		}
-		T& operator*() {
-			return Temp->Data;
-		}
+		Iterator(Element* Temp);
+		~Iterator();
+		Iterator& operator++();
+		Iterator& operator--();
+		Iterator& operator++(int);
+		Iterator& operator--(int);
+		bool operator!=(const Iterator& other) const;
+		bool operator!=(Element* other_el) const;
+		const T& operator*() const;
+		T& operator*();
 		// замена Temp != nulptr на Temp
-		operator bool()const {
-			return Temp;
-		}
+		operator bool()const;
 
 	};
 	class ReversIterator {
