@@ -46,44 +46,17 @@ public:
 	private:
 		Element* Temp;
 	public:
-		ReversIterator(Element* Temp = nullptr) {
-			this->Temp = Temp;
-			cout << "ReversItConstructor:\t" << this << endl;
-		}
-		~ReversIterator() {
-			cout << "ReversItDestructor:\t" << this << endl;
-		}
-		ReversIterator& operator++() {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--() {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		ReversIterator& operator++(int) {
-			Temp = Temp->pPrev;
-			return *this;
-		}
-		ReversIterator& operator--(int) {
-			Temp = Temp->pNext;
-			return *this;
-		}
-		bool operator!=(const ReversIterator& other) const {
-			return this->Temp != other.Temp;
-		}
-		bool operator!=(Element* other_el) const {
-			return this->Temp != other_el;
-		}
-		const T& operator*() const {
-			return Temp->Data;
-		}
-		T& operator*() {
-			return Temp->Data;
-		}
-		operator bool()const {
-			return Temp;
-		}
+		ReversIterator(Element* Temp = nullptr);
+		~ReversIterator();
+		ReversIterator& operator++();
+		ReversIterator& operator--();
+		ReversIterator& operator++(int);
+		ReversIterator& operator--(int);
+		bool operator!=(const ReversIterator& other) const;
+		bool operator!=(Element* other_el) const;
+		const T& operator*() const;
+		T& operator*();
+		operator bool()const;
 	};
 
 	const Iterator begin() const;

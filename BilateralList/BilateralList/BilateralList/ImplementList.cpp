@@ -66,6 +66,60 @@ List<T>::Iterator::operator bool()const {
 	return Temp;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////    REVERSITERATOR    //////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+template<typename T>
+List<T>::ReversIterator::ReversIterator(Element* Temp) {
+	this->Temp = Temp;
+	cout << "ReversItConstructor:\t" << this << endl;
+}
+template<typename T>
+List<T>::ReversIterator::~ReversIterator() {
+	cout << "ReversItDestructor:\t" << this << endl;
+}
+template<typename T>
+typename List<T>::ReversIterator& List<T>::ReversIterator::operator++() {
+	Temp = Temp->pPrev;
+	return *this;
+}
+template<typename T>
+typename List<T>::ReversIterator& List<T>::ReversIterator::operator--() {
+	Temp = Temp->pNext;
+	return *this;
+}
+template<typename T>
+typename List<T>::ReversIterator& List<T>::ReversIterator::operator++(int) {
+	Temp = Temp->pPrev;
+	return *this;
+}
+template<typename T>
+typename List<T>::ReversIterator& List<T>::ReversIterator::operator--(int) {
+	Temp = Temp->pNext;
+	return *this;
+}
+template<typename T>
+bool List<T>::ReversIterator::operator!=(const ReversIterator& other) const {
+	return this->Temp != other.Temp;
+}
+template<typename T>
+bool List<T>::ReversIterator::operator!=(Element* other_el) const {
+	return this->Temp != other_el;
+}
+template<typename T>
+const T& List<T>::ReversIterator::operator*() const {
+	return Temp->Data;
+}
+template<typename T>
+T& List<T>::ReversIterator::operator*() {
+	return Temp->Data;
+}
+template<typename T>
+List<T>::ReversIterator::operator bool()const {
+	return Temp;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////    LIST    ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
