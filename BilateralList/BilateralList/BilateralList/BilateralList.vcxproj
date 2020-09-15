@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ImplementIterator.cpp" />
     <ClCompile Include="ImplementList.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>

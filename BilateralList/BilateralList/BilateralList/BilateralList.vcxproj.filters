@@ -18,9 +18,6 @@
     <ClCompile Include="Source.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ImplementIterator.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ImplementList.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
