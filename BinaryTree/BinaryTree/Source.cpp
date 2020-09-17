@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-#define DEBUG
+//#define DEBUG
 class Tree {
 private:
 	
@@ -49,14 +49,17 @@ public:
 		insert_(Data, this->Root);
 
 	}
-	Tree(int size, int Data, ...) {
+	Tree(/*int size, int Data, ...*/const initializer_list<int>& il):Tree() {
 #ifdef DEBUG
 		cout << "ArbitraryConstructor\t" << this << endl;
 #endif // DEBUG
-		const int* add = &Data;
+		/*const int* add = &Data;
 		for (int i = 0; i < size; i++) {
 			insert_(*add, this->Root);
 			add++;
+		}*/
+		for (int i : il) {
+			insert(i);
 		}
 	}
 	~Tree() {
@@ -70,6 +73,9 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// обертка методов //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+	void erase(int Data) {
+		erase_(Data, getRoot());
+	}
 	// метод удалени€ элементов дерева
 	void erase() {
 		erase_(getRoot());
@@ -90,23 +96,28 @@ public:
 	void print() {
 		print_(getRoot());
 	}
-	int sizeTree() {
-		int i = 0;
-		int& iterator = i;
-		sizeTree_(getRoot(), iterator);
-		return iterator;
+	int count() {
+		/*int i = 0;
+		int& iterator = i;*/
+		return count_(getRoot());
+		/*count_(getRoot(), iterator);*/
+		//return iterator;
 	}
 	int sum() {
-		int a = 0;
-		int& sum = a;
-		sum_(getRoot(), sum);
-		return sum;
+		/*int a = 0;
+		int& sum = a;*/
+		return sum_(getRoot()/*, sum*/);
+		/*return sum;*/
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////// закрыта€ реализаци€ методов //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 private:
+	void erase_(int Data, Element* Root) {
+		if (Root == nullptr) return;
+
+	}
 	// метод очистки элементов дерева без корневого элемента
 	void erase_(Element* Root) {
 		if (Root == nullptr) return;
@@ -143,9 +154,6 @@ private:
 	// метод поиска минимального значени€
 	int minValue_(Element* Root) {
 		return Root ? Root->pLeft ? minValue_(Root->pLeft) : Root->Data : int();
-		//if (Root == nullptr) return -1;								// если дерево пустое
-		//if (Root->pLeft) minValue_(Root->pLeft);						// иначе идем к минимальному значению
-		//else return Root->Data;										// возвращаем минимальное значение
 	}
 	// метод вывода элементов дерева на экран
 	void print_(Element* Root) {
@@ -155,32 +163,31 @@ private:
 		print_(Root->pRight);
 	}
 	// метод расчета размерности дерева
-	void sizeTree_(Element* Root, int& iterator) {
-		if (Root == nullptr) return;
-		sizeTree_(Root->pLeft, iterator);
-		iterator++;
-		sizeTree_(Root->pRight, iterator);
+	int count_(Element* Root) {
+		if (Root == nullptr) return 0;
+		if (Root->pLeft == Root->pRight) return 1;
+		else {
+			return 1 + count_(Root->pLeft) + count_(Root->pRight);
+		}
 	}
 	// метод расчета суммы элементов дерева
-	void sum_(Element* Root, int& tempData) {
-		if (Root == nullptr) 
-			return;
-		sum_(Root->pLeft, tempData);
-		tempData += Root->Data;
-		sum_(Root->pRight, tempData);
+	int sum_(Element* Root) {
+		if (Root == nullptr) return 0;
+		if (Root->pLeft == Root->pRight) return Root->Data;
+		else return Root->Data + sum_(Root->pLeft) + sum_(Root->pRight);
 	}
 };
 
 
-
 void main() {
+
 	setlocale(LC_ALL, "");
 	int n;
 	cout << "¬ведите размер дерева - "; cin >> n; cout << endl;
-	Tree T801;
+	/*Tree T801;
 	cout << endl << T801.minValue() << "\t" << T801.maxValue() << endl;
 
-	T801.print();
+	T801.print();*/
 	Tree T800 = { 2,50,20 };
 	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
 	for (int i = 0; i < n; i++) {
@@ -189,6 +196,7 @@ void main() {
 	T800.print();
 	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
 	int sum = T800.sum();
-	int iterator = T800.sizeTree();
+	int iterator = T800.count();
 	cout << sum << "\t" << iterator << endl;
+	cout << sum << "\t" << T800.count() << endl;
 }
