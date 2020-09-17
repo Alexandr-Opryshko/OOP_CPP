@@ -32,82 +32,129 @@ public:
 	Element* getRoot() {
 		return Root;
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////// Конструкторы /////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 	// конструктор по умолчанию
-	Tree(){
+	Tree() {
 		Root = nullptr;
 #ifdef DEBUG
 		cout << "TConstructor\t" << this << endl;
 #endif // DEBUG
 	}
-	Tree(int size,int Data,...) {
+	Tree(int Data) {
+#ifdef DEBUG
+		cout << "DataConstructor\t" << this << endl;
+#endif // DEBUG
+		insert_(Data, this->Root);
+
+	}
+	Tree(int size, int Data, ...) {
 #ifdef DEBUG
 		cout << "ArbitraryConstructor\t" << this << endl;
 #endif // DEBUG
 		const int* add = &Data;
 		for (int i = 0; i < size; i++) {
-			insert(*add, this->Root);
+			insert_(*add, this->Root);
 			add++;
 		}
 	}
 	~Tree() {
-		erase(Root);												// удаление элементов дерева
+		erase_(Root);												// удаление элементов дерева
 		delete Root;												// удаление корневого элемента
 #ifdef DEBUG
 		cout << "TDestructor\t" << this << endl;
 #endif // DEBUG
 	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////// обертка методов //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+	// метод удаления элементов дерева
+	void erase() {
+		erase_(getRoot());
+	}
+	// метод добавления новых элементов в дерево
+	void insert(int Data) {
+		insert_(Data, getRoot());			// если есть ответвление перейдем к следующему элементу
+	}
+	// метод поиска максимального значения
+	int maxValue() {
+		return maxValue_(getRoot());					// иначе идем к максимальному значению
+	}
+	// метод поиска минимального значения
+	int minValue() {
+		return minValue_(getRoot());						// иначе идем к минимальному значению
+	}
+	// метод вывода элементов дерева на экран
+	void print() {
+		print_(getRoot());
+	}
+	int sizeTree() {
+		int i = 0;
+		int& iterator = i;
+		sizeTree_(getRoot(), iterator);
+		return iterator;
+	}
+	int sum() {
+		int a = 0;
+		int& sum = a;
+		sum_(getRoot(), sum);
+		return sum;
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////// закрытая реализация методов //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+private:
 	// метод очистки элементов дерева без корневого элемента
-	void erase(Element* Root) {
+	void erase_(Element* Root) {
 		if (Root == nullptr) return;
-		erase(Root->pLeft);
+		erase_(Root->pLeft);
 		delete Root->pLeft;
 		Root->pLeft = nullptr;
-		erase(Root->pRight);
+		erase_(Root->pRight);
 		delete Root->pRight;
 		Root->pRight = nullptr;
 	}
 	// метод добавления новых элементов в дерево
-	void insert(int Data, Element* Root) {
+	void insert_(int Data, Element* Root) {
 		if (this->Root == nullptr) {								// если это добавляется первый элемент
 			this->Root = new Element(Data);							// создаем первый элемент
 			return;													// и выходим
 		}
 		if (Root == nullptr) return;								// условие выхода
 		if (Data < Root->Data) {									// если значение меньше добавляемого
-			if (Root->pLeft) insert(Data, Root->pLeft);				// если есть ответвление перейдем к следующему элементу
+			if (Root->pLeft) insert_(Data, Root->pLeft);				// если есть ответвление перейдем к следующему элементу
 			else Root->pLeft = new Element(Data);					// иначе создадим новый элемент
 		}
 		else {														// иначе значение больше добавляемого
-			if (Root->pRight) insert(Data, Root->pRight);			// если есть ответвление перейдем к следующему элементу
+			if (Root->pRight) insert_(Data, Root->pRight);			// если есть ответвление перейдем к следующему элементу
 			else Root->pRight = new Element(Data);					// иначе создадим новый элемент
 		}
 	}
 	// метод поиска максимального значения
-	int maxValue(Element* Root) {
-		if (Root == nullptr) return -1;								// если дерево пустое
-		if (Root->pRight) maxValue(Root->pRight);					// иначе идем к максимальному значению
-		else return Root->Data;										// возвращаем максимальное значение
+	int maxValue_(Element* Root) {
+		return Root ? Root->pRight ? maxValue_(Root->pRight) : Root->Data : int();
+		//if (Root == nullptr) return -1;								// если дерево пустое
+		//if (Root->pRight) maxValue_(Root->pRight);					// иначе идем к максимальному значению
+		//else return Root->Data;										// возвращаем максимальное значение
 	}
 	// метод поиска минимального значения
-	int minValue(Element* Root) {
-		if (Root == nullptr) return -1;								// если дерево пустое
-		if (Root->pLeft) minValue(Root->pLeft);						// иначе идем к минимальному значению
-		else return Root->Data;										// возвращаем минимальное значение
+	int minValue_(Element* Root) {
+		return Root ? Root->pLeft ? minValue_(Root->pLeft) : Root->Data : int();
+		//if (Root == nullptr) return -1;								// если дерево пустое
+		//if (Root->pLeft) minValue_(Root->pLeft);						// иначе идем к минимальному значению
+		//else return Root->Data;										// возвращаем минимальное значение
 	}
 	// метод вывода элементов дерева на экран
-	void print(Element* Root) {
+	void print_(Element* Root) {
 		if (Root == nullptr) return;
-		print(Root->pLeft);
+		print_(Root->pLeft);
 		cout << Root->Data << "\t";
-		print(Root->pRight);
+		print_(Root->pRight);
 	}
 	// метод расчета размерности дерева
-	int sizeTree(Element* Root) {
-		int i = 0;
-		int& iterator = i;
-		sizeTree_(Root, iterator);
-		return iterator;
-	}
 	void sizeTree_(Element* Root, int& iterator) {
 		if (Root == nullptr) return;
 		sizeTree_(Root->pLeft, iterator);
@@ -115,12 +162,6 @@ public:
 		sizeTree_(Root->pRight, iterator);
 	}
 	// метод расчета суммы элементов дерева
-	int sum(Element* Root) {
-		int a = 0;
-		int& sum = a;
-		sum_(Root,sum);
-		return sum;
-	}
 	void sum_(Element* Root, int& tempData) {
 		if (Root == nullptr) 
 			return;
@@ -136,14 +177,18 @@ void main() {
 	setlocale(LC_ALL, "");
 	int n;
 	cout << "Введите размер дерева - "; cin >> n; cout << endl;
+	Tree T801;
+	cout << endl << T801.minValue() << "\t" << T801.maxValue() << endl;
+
+	T801.print();
 	Tree T800 = { 2,50,20 };
-	cout << endl << T800.minValue(T800.getRoot()) << "\t" << T800.maxValue(T800.getRoot()) << endl;
+	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
 	for (int i = 0; i < n; i++) {
-		T800.insert(rand() % 100, T800.getRoot());
+		T800.insert(rand() % 100);
 	}
-	T800.print(T800.getRoot());
-	cout << endl << T800.minValue(T800.getRoot()) << "\t" << T800.maxValue(T800.getRoot()) << endl;
-	int sum = T800.sum(T800.getRoot());
-	int iterator = T800.sizeTree(T800.getRoot());
+	T800.print();
+	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
+	int sum = T800.sum();
+	int iterator = T800.sizeTree();
 	cout << sum << "\t" << iterator << endl;
 }
