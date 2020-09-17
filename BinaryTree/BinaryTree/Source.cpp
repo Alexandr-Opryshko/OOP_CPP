@@ -114,6 +114,7 @@ public:
 ////////////////// закрытая реализация методов //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 private:
+	// метод удаления элемента дерева по его значению
 	void erase_(int Data, Element* Root) {
 		if (Root == nullptr) return;
 
@@ -136,7 +137,7 @@ private:
 		}
 		if (Root == nullptr) return;								// условие выхода
 		if (Data < Root->Data) {									// если значение меньше добавляемого
-			if (Root->pLeft) insert_(Data, Root->pLeft);				// если есть ответвление перейдем к следующему элементу
+			if (Root->pLeft) insert_(Data, Root->pLeft);			// если есть ответвление перейдем к следующему элементу
 			else Root->pLeft = new Element(Data);					// иначе создадим новый элемент
 		}
 		else {														// иначе значение больше добавляемого
@@ -195,8 +196,5 @@ void main() {
 	}
 	T800.print();
 	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
-	int sum = T800.sum();
-	int iterator = T800.count();
-	cout << sum << "\t" << iterator << endl;
-	cout << sum << "\t" << T800.count() << endl;
+	cout << T800.sum() << "\t" << T800.count() << endl;
 }
