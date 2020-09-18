@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-//#define DEBUG
+#define DEBUG
 class Tree {
 private:
 	
@@ -47,17 +47,11 @@ public:
 		cout << "DataConstructor\t" << this << endl;
 #endif // DEBUG
 		insert_(Data, this->Root);
-
 	}
-	Tree(/*int size, int Data, ...*/const initializer_list<int>& il):Tree() {
+	Tree(const initializer_list<int>& il):Tree() {
 #ifdef DEBUG
 		cout << "ArbitraryConstructor\t" << this << endl;
 #endif // DEBUG
-		/*const int* add = &Data;
-		for (int i = 0; i < size; i++) {
-			insert_(*add, this->Root);
-			add++;
-		}*/
 		for (int i : il) {
 			insert(i);
 		}
@@ -97,17 +91,10 @@ public:
 		print_(getRoot());
 	}
 	int count() {
-		/*int i = 0;
-		int& iterator = i;*/
 		return count_(getRoot());
-		/*count_(getRoot(), iterator);*/
-		//return iterator;
 	}
 	int sum() {
-		/*int a = 0;
-		int& sum = a;*/
-		return sum_(getRoot()/*, sum*/);
-		/*return sum;*/
+		return sum_(getRoot());
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +104,67 @@ private:
 	// метод удаления элемента дерева по его значению
 	void erase_(int Data, Element* Root) {
 		if (Root == nullptr) return;
+		else if (Root->Data == Data && !Root->pLeft && !Root->pRight) {
+			delete Root;
+			this->Root = nullptr;
+			return;
+		}
+		else if (Root->Data == Data && Root->pLeft) {
+			Element* Temp = Root->pLeft;
+			if (Temp->pRight != nullptr) {
+				insertMax(Temp->pRight, Root->pRight);
+			}
+			else Temp->pRight = Root->pRight;
 
+			delete Root;
+			this->Root = Temp;
+		}
+		else if (Root->Data == Data && Root->pRight) {
+			Element* Temp = Root->pRight;
+			if (Temp->pLeft != nullptr) {
+				insertMin(Temp->pLeft, Root->pLeft);
+			}
+			else Temp->pLeft = Root->pLeft;
+			delete Root;
+			this->Root = Temp;
+		}
+		else if (Data > Root->Data && Root->pRight && Data != Root->pRight->Data) erase_(Data, Root->pRight);
+		else if (Data < Root->Data && Root->pLeft && Data != Root->pLeft->Data) erase_(Data, Root->pLeft);
+		else {
+			
+			if (Root->pRight && Data == Root->pRight->Data) {
+				Element* Temp = Root->pRight;
+				Root->pRight = Root->pRight->pLeft;
+				if (Root->pRight != nullptr) {
+					insertMax(Root->pRight, Temp->pRight);
+				}
+				delete Temp;
+			}
+			if (Root->pLeft && Data == Root->pLeft->Data) {
+				Element* Temp = Root->pLeft;
+				Root->pLeft = Root->pLeft->pRight;
+				if (Root->pLeft != nullptr) {
+					insertMin(Root->pLeft, Temp->pLeft); 
+				}
+				delete Temp;
+			}
+		}
+	}
+	void insertMin(Element* Root, Element* add) {
+		if (Root == nullptr) return;
+		else if (Root->pLeft == nullptr) {
+			Root->pLeft = add;
+			return;
+		}
+		else insertMin(Root->pLeft, add);
+	}
+	void insertMax(Element* Root, Element* add) {
+		if (Root == nullptr) return;
+		else if (Root->pRight == nullptr) {
+			Root->pRight = add;
+			return;
+		}
+		else insertMax(Root->pRight, add);
 	}
 	// метод очистки элементов дерева без корневого элемента
 	void erase_(Element* Root) {
@@ -189,12 +236,28 @@ void main() {
 	cout << endl << T801.minValue() << "\t" << T801.maxValue() << endl;
 
 	T801.print();*/
-	Tree T800 = { 2,50,20 };
-	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
+	Tree T800 = { 50,39,80,48,12,56,102,2,20,45,49,41,47,40 };
+	T800.print();cout << endl;
+	T800.erase(2);
+	T800.erase(20);
+	T800.erase(12);
+	T800.erase(40);
+	T800.erase(41);
+	T800.erase(47);
+	T800.erase(45);
+	T800.erase(49);
+	T800.erase(48);
+	T800.erase(39);
+	T800.erase(50);/*
+	T800.erase(56);
+	T800.erase(102);*/
+	//T800.erase(80);
+	
+	/*cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
 	for (int i = 0; i < n; i++) {
 		T800.insert(rand() % 100);
-	}
-	T800.print();
-	cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
-	cout << T800.sum() << "\t" << T800.count() << endl;
+	}*/
+	T800.print();cout << endl;
+	//cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
+	//cout << T800.sum() << "\t" << T800.count() << endl;
 }
