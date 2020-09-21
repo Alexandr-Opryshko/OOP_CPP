@@ -50,11 +50,17 @@ public:
 	}
 	Tree(const initializer_list<int>& il):Tree() {
 #ifdef DEBUG
-		cout << "ArbitraryConstructor\t" << this << endl;
+		cout << "AConstructor\t" << this << endl;
 #endif // DEBUG
 		for (int i : il) {
 			insert(i);
 		}
+	}
+	Tree(const Tree& other) {
+#ifdef DEBUG
+		cout << "CopyConstructor\t" << this << endl;
+#endif // DEBUG
+		copyTree(other.Root);
 	}
 	~Tree() {
 		erase_(Root);												// удаление элементов дерева
@@ -67,10 +73,18 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// обертка методов //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+	// метод копирования листа
+	void copyTree(const Element* Root) {
+		if (Root == nullptr) return;
+		copyTree(Root->pLeft);
+		insert(Root->Data);
+		copyTree(Root->pRight);
+	}
+	// метод удаления элемента по значению
 	void erase(int Data) {
 		erase_(Data, getRoot());
 	}
-	// метод удаления элементов дерева
+	// метод удаления всех элементов дерева
 	void erase() {
 		erase_(getRoot());
 	}
@@ -131,7 +145,6 @@ private:
 		else if (Data > Root->Data && Root->pRight && Data != Root->pRight->Data) erase_(Data, Root->pRight);
 		else if (Data < Root->Data && Root->pLeft && Data != Root->pLeft->Data) erase_(Data, Root->pLeft);
 		else {
-			
 			if (Root->pRight && Data == Root->pRight->Data) {
 				Element* Temp = Root->pRight;
 				Root->pRight = Root->pRight->pLeft;
@@ -150,6 +163,7 @@ private:
 			}
 		}
 	}
+	// метод поиска ближайшего меньшего значения для переключения ветки
 	void insertMin(Element* Root, Element* add) {
 		if (Root == nullptr) return;
 		else if (Root->pLeft == nullptr) {
@@ -158,6 +172,7 @@ private:
 		}
 		else insertMin(Root->pLeft, add);
 	}
+	// метод поиска ближайшего болььшего значения для переключения ветки
 	void insertMax(Element* Root, Element* add) {
 		if (Root == nullptr) return;
 		else if (Root->pRight == nullptr) {
@@ -237,18 +252,22 @@ void main() {
 
 	T801.print();*/
 	Tree T800 = { 50,39,80,48,12,56,102,2,20,45,49,41,47,40 };
-	T800.print();cout << endl;
-	T800.erase(2);
-	T800.erase(20);
-	T800.erase(12);
-	T800.erase(40);
-	T800.erase(41);
-	T800.erase(47);
-	T800.erase(45);
-	T800.erase(49);
-	T800.erase(48);
-	T800.erase(39);
-	T800.erase(50);/*
+	Tree T801(T800);
+	cout << "T800\t" << T800.getRoot();T800.print();cout << endl;
+	cout << "T801\t";T801.print();cout << endl;
+	//T800.print();cout << endl;
+	//T800.erase(2);
+	//T800.erase(20);
+	//T800.erase(12);
+	//T800.erase(40);
+	//T800.erase(41);
+	//T800.erase(47);
+	//T800.erase(45);
+	//T800.erase(49);
+	//T800.erase(48);
+	//T800.erase(39);
+	//T800.erase(50);
+	/*
 	T800.erase(56);
 	T800.erase(102);*/
 	//T800.erase(80);
@@ -257,7 +276,7 @@ void main() {
 	for (int i = 0; i < n; i++) {
 		T800.insert(rand() % 100);
 	}*/
-	T800.print();cout << endl;
+	//T800.print();cout << endl;
 	//cout << endl << T800.minValue() << "\t" << T800.maxValue() << endl;
 	//cout << T800.sum() << "\t" << T800.count() << endl;
 }
